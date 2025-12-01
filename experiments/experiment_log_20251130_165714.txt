@@ -1,0 +1,91 @@
+==============================================================
+ QUICK TEST - FAST COMPARISON
+==============================================================
+
+ Local Planners:  dwa drl_vo teb sfm
+ Global Planners: none cigp
+ Scenarios:       congestion block_heavy (사람 많은 시나리오)
+
+ Episodes per condition: 3
+ Total conditions:       16
+ Total episodes:         48
+
+ Results: /environment/experiments/results/quick_test_20251130_165714
+
+ Estimated time: 2-3 hours
+ (Predictive Planning 제외 - Local vs CIGP 비교만)
+
+==============================================================
+
+Auto-starting (non-interactive mode)...
+
+################################################################
+# SCENARIO: congestion (scenario_congestion_all.xml)
+################################################################
+
+
+================================================
+Condition 1/16
+Local: dwa, Global: none
+Scenario: congestion
+Episodes: 3
+================================================
+
+qt.qpa.xcb: could not connect to display 
+qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, xcb.
+
+[INFO] [1764489435.994654, 0.000000]: Loading model XML from ros parameter robot_description
+[INFO] [1764489435.997807, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
+[INFO] [1764489436.300277, 0.074000]: Calling service /gazebo/spawn_urdf_model
+[INFO] [1764489437.328124, 0.169000]: Spawn status: SpawnModel: Successfully spawned entity
+[33m[WARN] [1764489437.333459739, 0.169000000]: DiffDrive(ns = p3dx/): missing <publishOdomTF> default is true[0m
+[33m[WARN] [1764489437.333576740, 0.169000000]: GazeboRosDiffDrive Plugin (ns = ) missing <publishTf>, defaults to 1[0m
+[0m[INFO] [1764489436.054207275]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1764489436.054925114]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
+[0m[INFO] [1764489436.218581218]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
+[0m[INFO] [1764489436.227009775, 0.004000000]: Physics dynamic reconfigure ready.[0m
+[0m[INFO] [1764489436.526055867, 0.169000000]: Laser Plugin: The 'robotNamespace' param was empty[0m
+[0m[INFO] [1764489436.526079872, 0.169000000]: Starting Laser Plugin (ns = p3dx)[0m
+[0m[INFO] [1764489436.526662463, 0.169000000]: Laser Plugin (ns = p3dx)  <tf_prefix_>, set to ""[0m
+[0m[INFO] [1764489437.328070367, 0.169000000]: Velodyne laser plugin missing <organize_cloud>, defaults to false[0m
+[0m[INFO] [1764489437.328094397, 0.169000000]: Velodyne laser plugin missing <min_intensity>, defaults to no clipping[0m
+[0m[INFO] [1764489437.328823145, 0.169000000]: Velodyne laser plugin ready, 16 lasers[0m
+[0m[INFO] [1764489437.333132787, 0.169000000]: Starting plugin DiffDrive(ns = p3dx/)[0m
+[0m[INFO] [1764489437.333178115, 0.169000000]: DiffDrive(ns = p3dx/): <rosDebugLevel> = Debug[0m
+[0m[INFO] [1764489437.333395662, 0.169000000]: DiffDrive(ns = p3dx/): <tf_prefix> = [0m
+[32m[DEBUG] [1764489437.333419947, 0.169000000]: DiffDrive(ns = p3dx/): <commandTopic> = cmd_vel[0m
+[32m[DEBUG] [1764489437.333424950, 0.169000000]: DiffDrive(ns = p3dx/): <odometryTopic> = odom[0m
+[32m[DEBUG] [1764489437.333429253, 0.169000000]: DiffDrive(ns = p3dx/): <odometryFrame> = odom[0m
+[32m[DEBUG] [1764489437.333435371, 0.169000000]: DiffDrive(ns = p3dx/): <robotBaseFrame> = base_link[0m
+[32m[DEBUG] [1764489437.333454304, 0.169000000]: DiffDrive(ns = p3dx/): <publishWheelTF> = false[0m
+[32m[DEBUG] [1764489437.333470476, 0.169000000]: DiffDrive(ns = p3dx/): <publishWheelJointState> = true[0m
+[32m[DEBUG] [1764489437.333493763, 0.169000000]: DiffDrive(ns = p3dx/): <wheelSeparation> = 0.29999999999999999[0m
+[32m[DEBUG] [1764489437.333499657, 0.169000000]: DiffDrive(ns = p3dx/): <wheelDiameter> = 0.17999999999999999[0m
+[32m[DEBUG] [1764489437.333506642, 0.169000000]: DiffDrive(ns = p3dx/): <wheelAcceleration> = 1.8[0m
+[32m[DEBUG] [1764489437.333512881, 0.169000000]: DiffDrive(ns = p3dx/): <wheelTorque> = 20[0m
+[32m[DEBUG] [1764489437.333518731, 0.169000000]: DiffDrive(ns = p3dx/): <updateRate> = 50[0m
+[32m[DEBUG] [1764489437.333543201, 0.169000000]: DiffDrive(ns = p3dx/): <odometrySource> = world := 1[0m
+[32m[DEBUG] [1764489437.333560164, 0.169000000]: DiffDrive(ns = p3dx/): <leftJoint> = left_hub_joint[0m
+[32m[DEBUG] [1764489437.333567603, 0.169000000]: DiffDrive(ns = p3dx/): <rightJoint> = right_hub_joint[0m
+[0m[INFO] [1764489437.333868149, 0.169000000]: DiffDrive(ns = p3dx/): Advertise joint_states[0m
+[0m[INFO] [1764489437.334080551, 0.169000000]: DiffDrive(ns = p3dx/): Try to subscribe to cmd_vel[0m
+[0m[INFO] [1764489437.334707518, 0.169000000]: DiffDrive(ns = p3dx/): Subscribe to cmd_vel[0m
+[0m[INFO] [1764489437.334863012, 0.169000000]: DiffDrive(ns = p3dx/): Advertise odom on odom [0m
+[0m[INFO] [1764489437.337797529, 0.169000000]: GazeboRosJointStatePublisher is going to publish joint: chassis_swivel_joint[0m
+[0m[INFO] [1764489437.337806354, 0.169000000]: GazeboRosJointStatePublisher is going to publish joint: swivel_wheel_joint[0m
+[0m[INFO] [1764489437.337811379, 0.169000000]: GazeboRosJointStatePublisher is going to publish joint: left_hub_joint[0m
+[0m[INFO] [1764489437.337815394, 0.169000000]: GazeboRosJointStatePublisher is going to publish joint: right_hub_joint[0m
+[0m[INFO] [1764489437.337820472, 0.169000000]: Starting GazeboRosJointStatePublisher Plugin (ns = p3dx/)!, parent name: p3dx[0m
+[32m[DEBUG] [1764489437.358519337, 0.190000000]: Trying to publish message of type [nav_msgs/Odometry/cd5e73d190d741a2f92e81eda573aca7] on a publisher with type [nav_msgs/Odometry/cd5e73d190d741a2f92e81eda573aca7][0m
+[32m[DEBUG] [1764489437.358548976, 0.190000000]: Trying to publish XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header
+XmlRpcServerConnection::readHeader: EOF while reading header

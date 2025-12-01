@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Scenario: Congestion Aisle1 - aisle1 completely blocked with slow-moving workers -->
+<!-- People continuously patrol inside aisle, making it impassable -->
+<!-- Total: 6 people in aisle1 + 2 corridor -->
+<scenario>
+    <!-- Outer walls -->
+    <obstacle x1="-12.0" y1="-12.0" x2="-12.0" y2="12.0"/>
+    <obstacle x1="12.0" y1="-12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="-12.0" x2="12.0" y2="-12.0"/>
+
+    <!-- Shelves -->
+    <obstacle x1="-12" y1="4" x2="-12" y2="-5"/>
+    <obstacle x1="-12" y1="-5" x2="-10" y2="-5"/>
+    <obstacle x1="-10" y1="-5" x2="-10" y2="4"/>
+    <obstacle x1="-10" y1="4" x2="-12" y2="4"/>
+
+    <obstacle x1="-7" y1="4" x2="-7" y2="-5"/>
+    <obstacle x1="-7" y1="-5" x2="-5" y2="-5"/>
+    <obstacle x1="-5" y1="-5" x2="-5" y2="4"/>
+    <obstacle x1="-5" y1="4" x2="-7" y2="4"/>
+
+    <obstacle x1="-2" y1="4" x2="-2" y2="-5"/>
+    <obstacle x1="-2" y1="-5" x2="0" y2="-5"/>
+    <obstacle x1="0" y1="-5" x2="0" y2="4"/>
+    <obstacle x1="0" y1="4" x2="-2" y2="4"/>
+
+    <obstacle x1="3" y1="4" x2="3" y2="-5"/>
+    <obstacle x1="3" y1="-5" x2="5" y2="-5"/>
+    <obstacle x1="5" y1="-5" x2="5" y2="4"/>
+    <obstacle x1="5" y1="4" x2="3" y2="4"/>
+
+    <obstacle x1="10" y1="4" x2="10" y2="-5"/>
+    <obstacle x1="10" y1="-5" x2="12" y2="-5"/>
+    <obstacle x1="12" y1="-5" x2="12" y2="4"/>
+    <obstacle x1="12" y1="4" x2="10" y2="4"/>
+
+    <!-- Waypoints -->
+    <waypoint id="exit_top_left" x="-11" y="11" r="1"/>
+    <waypoint id="exit_top_right" x="11" y="11" r="1"/>
+    <waypoint id="exit_bot_left" x="-11" y="-11" r="1"/>
+    <waypoint id="exit_bot_right" x="11" y="-11" r="1"/>
+
+    <waypoint id="top_0" x="-9" y="8.5" r="2.5"/>
+    <waypoint id="top_1" x="-4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_2" x="0" y="8.5" r="2.5"/>
+    <waypoint id="top_3" x="4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_4" x="9" y="8.5" r="2.5"/>
+
+    <waypoint id="bot_0" x="-9" y="-8.5" r="2.5"/>
+    <waypoint id="bot_1" x="-4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_2" x="0" y="-8.5" r="2.5"/>
+    <waypoint id="bot_3" x="4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_4" x="9" y="-8.5" r="2.5"/>
+
+    <waypoint id="aisle1_top" x="-8.5" y="4" r="0.8"/>
+    <waypoint id="aisle1_bot" x="-8.5" y="-4" r="0.8"/>
+    <waypoint id="aisle1_mid" x="-8.5" y="0" r="0.8"/>
+
+    <!-- ===== AISLE1 CONGESTION (6 workers patrolling continuously) ===== -->
+
+    <!-- Worker 1: slow patrol up-down -->
+    <agent x="-9.5" y="-3" n="1" dx="0" dy="1" type="1" vmax="0.5" vmin="0.2">
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+    </agent>
+
+    <!-- Worker 2: slow patrol down-up -->
+    <agent x="-9.5" y="3" n="1" dx="0" dy="-1" type="1" vmax="0.5" vmin="0.2">
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+    </agent>
+
+    <!-- Worker 3: opposite side patrol -->
+    <agent x="-7.5" y="-2" n="1" dx="0" dy="1" type="1" vmax="0.5" vmin="0.2">
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+    </agent>
+
+    <!-- Worker 4: opposite side patrol -->
+    <agent x="-7.5" y="2" n="1" dx="0" dy="-1" type="1" vmax="0.5" vmin="0.2">
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+    </agent>
+
+    <!-- Worker 5: center patrol -->
+    <agent x="-8.5" y="-1" n="1" dx="0" dy="1" type="1" vmax="0.4" vmin="0.2">
+        <addwaypoint id="aisle1_mid"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+    </agent>
+
+    <!-- Worker 6: center patrol -->
+    <agent x="-8.5" y="1" n="1" dx="0" dy="-1" type="1" vmax="0.4" vmin="0.2">
+        <addwaypoint id="aisle1_mid"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+    </agent>
+
+    <!-- ===== CORRIDOR WORKERS ===== -->
+
+    <agent x="-11" y="11" n="1" dx="1" dy="0" type="0">
+        <addwaypoint id="exit_top_left"/>
+        <addwaypoint id="top_0"/>
+        <addwaypoint id="top_1"/>
+        <addwaypoint id="top_2"/>
+        <addwaypoint id="top_3"/>
+        <addwaypoint id="top_4"/>
+        <addwaypoint id="exit_top_right"/>
+    </agent>
+
+    <agent x="11" y="-11" n="1" dx="-1" dy="0" type="0">
+        <addwaypoint id="exit_bot_right"/>
+        <addwaypoint id="bot_4"/>
+        <addwaypoint id="bot_3"/>
+        <addwaypoint id="bot_2"/>
+        <addwaypoint id="bot_1"/>
+        <addwaypoint id="bot_0"/>
+        <addwaypoint id="exit_bot_left"/>
+    </agent>
+
+</scenario>

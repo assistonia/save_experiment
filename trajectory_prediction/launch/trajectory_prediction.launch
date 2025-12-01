@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Trajectory Prediction Bridge Node -->
+  <!-- 기존 시뮬레이션과 함께 실행하여 실시간 경로 예측 및 시각화 제공 -->
+
+  <!-- Arguments -->
+  <arg name="scenario" default="warehouse"/>
+
+  <!-- Prediction parameters -->
+  <arg name="prediction_rate" default="2.5"/>  <!-- Hz, 0.4초 간격 -->
+  <arg name="show_samples" default="5"/>       <!-- 시각화할 예측 샘플 수 -->
+  <arg name="z_height" default="0.1"/>         <!-- 마커 높이 -->
+
+  <!-- Logging parameters -->
+  <arg name="enable_logging" default="true"/>
+  <arg name="log_base_dir" default="$(find trajectory_prediction)/../trajectory_prediction_logs"/>
+  <arg name="save_every_n_frames" default="1"/>  <!-- 몇 프레임마다 이미지 저장 -->
+
+  <!-- Trajectory Prediction Node -->
+  <node pkg="trajectory_prediction" type="prediction_bridge_node.py"
+        name="trajectory_prediction" output="screen">
+    <param name="scenario" value="$(arg scenario)"/>
+    <param name="prediction_rate" value="$(arg prediction_rate)"/>
+    <param name="show_samples" value="$(arg show_samples)"/>
+    <param name="z_height" value="$(arg z_height)"/>
+    <param name="enable_logging" value="$(arg enable_logging)"/>
+    <param name="log_base_dir" value="$(arg log_base_dir)"/>
+    <param name="save_every_n_frames" value="$(arg save_every_n_frames)"/>
+  </node>
+
+</launch>

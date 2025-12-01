@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<launch>
+  <!--
+    Local Planner Launch File
+
+    기존 환경 수정 없이 독립적으로 로컬 플래너 실행.
+    CIGP 글로벌 경로를 구독하고 cmd_vel 발행.
+
+    Usage:
+      roslaunch local_planners local_planner.launch planner:=drl_vo
+      roslaunch local_planners local_planner.launch planner:=dwa
+      roslaunch local_planners local_planner.launch planner:=teb
+      roslaunch local_planners local_planner.launch planner:=orca
+      roslaunch local_planners local_planner.launch planner:=sfm
+  -->
+
+  <!-- Arguments -->
+  <arg name="planner" default="dwa" doc="Local planner type: drl_vo, dwa, teb, orca, sfm"/>
+  <arg name="max_speed" default="0.8"/>
+  <arg name="robot_radius" default="0.3"/>
+
+  <!-- 로봇 토픽 설정 (Pioneer 3DX 기본값) -->
+  <arg name="odom_topic" default="/p3dx/odom"/>
+  <arg name="cmd_vel_topic" default="/p3dx/cmd_vel"/>
+  <arg name="scan_topic" default="/scan"/>
+  <arg name="agents_topic" default="/pedsim_simulator/simulated_agents"/>
+
+  <!-- DRL-VO Planner -->
+  <group if="$(eval arg('planner') == 'drl_vo')">
+    <node pkg="local_planners" type="drl_vo_planner.py" name="drl_vo_local_planner"
+          output="screen" respawn="false">
+      <param name="max_speed" value="$(arg max_speed)"/>
+      <param name="robot_radius" value="$(arg robot_radius)"/>
+      <param name="odom_topic" value="$(arg odom_topic)"/>
+      <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+      <param name="scan_topic" value="$(arg scan_topic)"/>
+      <param name="agents_topic" value="$(arg agents_topic)"/>
+    </node>
+  </group>
+
+  <!-- TEB Planner -->
+  <group if="$(eval arg('planner') == 'teb')">
+    <node pkg="local_planners" type="teb_planner.py" name="teb_local_planner"
+          output="screen" respawn="false">
+      <param name="max_vel_x" value="$(arg max_speed)"/>
+      <param name="robot_radius" value="$(arg robot_radius)"/>
+      <param name="odom_topic" value="$(arg odom_topic)"/>
+      <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+      <param name="scan_topic" value="$(arg scan_topic)"/>
+      <param name="agents_topic" value="$(arg agents_topic)"/>
+    </node>
+  </group>
+
+  <!-- DWA / ORCA / SFM Planner (통합 노드) -->
+  <group unless="$(eval arg('planner') in ['drl_vo', 'teb'])">
+    <node pkg="local_planners" type="local_planner_node.py" name="local_planner"
+          output="screen" respawn="false">
+      <param name="planner" value="$(arg planner)"/>
+      <param name="max_speed" value="$(arg max_speed)"/>
+      <param name="robot_radius" value="$(arg robot_radius)"/>
+      <param name="odom_topic" value="$(arg odom_topic)"/>
+      <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+      <param name="scan_topic" value="$(arg scan_topic)"/>
+      <param name="agents_topic" value="$(arg agents_topic)"/>
+    </node>
+  </group>
+
+</launch>

@@ -1,0 +1,381 @@
+<?xml version="1.0" ?>
+<!-- Warehouse world for PedSim + Gazebo -->
+<sdf version="1.5">
+  <world name="warehouse">
+
+    <!-- Ground Plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Physics settings -->
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+
+    <!-- Outer walls -->
+    <!-- Wall: Left (-12, y) -->
+    <model name='wall_left'>
+      <static>1</static>
+      <link name='link'>
+        <pose>-12.0 0.0 1.0 0 0 1.5708</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Wall: Right (12, y) -->
+    <model name='wall_right'>
+      <static>1</static>
+      <link name='link'>
+        <pose>12.0 0.0 1.0 0 0 1.5708</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Wall: Top (x, 12) -->
+    <model name='wall_top'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0.0 12.0 1.0 0 0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Wall: Bottom (x, -12) -->
+    <model name='wall_bottom'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0.0 -12.0 1.0 0 0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>24.0 0.2 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Shelf 1: x=-11, y from -5 to 4 -->
+    <model name='shelf_1'>
+      <static>1</static>
+      <link name='link'>
+        <pose>-11.0 -0.5 1.0 0 0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.4 0.2 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Shelf 2: x=-6, y from -5 to 4 -->
+    <model name='shelf_2'>
+      <static>1</static>
+      <link name='link'>
+        <pose>-6.0 -0.5 1.0 0 0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.4 0.2 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Shelf 3: x=-1, y from -5 to 4 -->
+    <model name='shelf_3'>
+      <static>1</static>
+      <link name='link'>
+        <pose>-1.0 -0.5 1.0 0 0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.4 0.2 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Shelf 4: x=4, y from -5 to 4 -->
+    <model name='shelf_4'>
+      <static>1</static>
+      <link name='link'>
+        <pose>4.0 -0.5 1.0 0 0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.4 0.2 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Shelf 5: x=11, y from -5 to 4 -->
+    <model name='shelf_5'>
+      <static>1</static>
+      <link name='link'>
+        <pose>11.0 -0.5 1.0 0 0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>2.0 9.0 2.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.4 0.2 1</ambient>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- CCTV Camera 0: position=(-8.5, 10.0), looking down (orientation=-90deg) -->
+    <model name="cctv_0">
+      <static>true</static>
+      <pose>-8.5 10.0 3.0 0 0.5 -1.5708</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box><size>0.1 0.1 0.1</size></box>
+          </geometry>
+          <material>
+            <ambient>0.1 0.1 0.1 1</ambient>
+          </material>
+        </visual>
+        <sensor name="camera" type="camera">
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>20</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>10.0</updateRate>
+            <cameraName>cctv_0</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>cctv_0_frame</frameName>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+
+    <!-- CCTV Camera 1: position=(-3.5, -10.0), looking up (orientation=90deg) -->
+    <model name="cctv_1">
+      <static>true</static>
+      <pose>-3.5 -10.0 3.0 0 0.5 1.5708</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box><size>0.1 0.1 0.1</size></box>
+          </geometry>
+          <material>
+            <ambient>0.1 0.1 0.1 1</ambient>
+          </material>
+        </visual>
+        <sensor name="camera" type="camera">
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>20</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>10.0</updateRate>
+            <cameraName>cctv_1</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>cctv_1_frame</frameName>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+
+    <!-- CCTV Camera 2: position=(1.5, 10.0), looking down (orientation=-90deg) -->
+    <model name="cctv_2">
+      <static>true</static>
+      <pose>1.5 10.0 3.0 0 0.5 -1.5708</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box><size>0.1 0.1 0.1</size></box>
+          </geometry>
+          <material>
+            <ambient>0.1 0.1 0.1 1</ambient>
+          </material>
+        </visual>
+        <sensor name="camera" type="camera">
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>20</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>10.0</updateRate>
+            <cameraName>cctv_2</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>cctv_2_frame</frameName>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+
+    <!-- CCTV Camera 3: position=(7.5, -10.0), looking up (orientation=90deg) -->
+    <model name="cctv_3">
+      <static>true</static>
+      <pose>7.5 -10.0 3.0 0 0.5 1.5708</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box><size>0.1 0.1 0.1</size></box>
+          </geometry>
+          <material>
+            <ambient>0.1 0.1 0.1 1</ambient>
+          </material>
+        </visual>
+        <sensor name="camera" type="camera">
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>20</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>10.0</updateRate>
+            <cameraName>cctv_3</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>cctv_3_frame</frameName>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+
+    <!-- ActorPosesPlugin: Updates pedestrian poses from PedSim -->
+    <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so">
+    </plugin>
+
+  </world>
+</sdf>

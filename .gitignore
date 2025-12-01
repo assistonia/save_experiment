@@ -1,0 +1,12 @@
+results/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+cigp_cctv_logs/
+rosbag/
+*.bag
+*.png
+*.jpg
+*.mp4
+*.avi

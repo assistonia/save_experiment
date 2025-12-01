@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- CIGP Global Planner Node -->
+  <!-- 기존 시뮬레이션과 함께 실행하여 human-aware 경로 제공 -->
+
+  <!-- Arguments -->
+  <arg name="scenario" default="warehouse"/>
+
+  <!-- Map bounds (warehouse: -12 ~ 12) -->
+  <arg name="x_min" default="-12.0"/>
+  <arg name="x_max" default="12.0"/>
+  <arg name="y_min" default="-12.0"/>
+  <arg name="y_max" default="12.0"/>
+
+  <!-- CIGP parameters -->
+  <arg name="resolution" default="0.1"/>
+  <arg name="gamma1" default="0.5"/>
+  <arg name="robot_radius" default="0.25"/>
+  <arg name="robot_fov" default="3.14159"/>
+  <arg name="robot_range" default="10.0"/>
+
+  <!-- Update rate -->
+  <arg name="update_rate" default="10.0"/>
+  <arg name="replan_interval" default="2"/>
+
+  <!-- CCTV settings -->
+  <arg name="n_cctvs" default="4"/>
+  <arg name="cctv_fov" default="1.5708"/>
+  <arg name="cctv_range" default="15.0"/>
+
+  <!-- DWA options -->
+  <arg name="use_dwa" default="false"/>
+  <arg name="max_speed" default="0.8"/>
+  <arg name="max_yaw_rate" default="1.0"/>
+
+  <!-- Visualization -->
+  <arg name="publish_cost_map" default="true"/>
+
+  <!-- CIGP Bridge Node -->
+  <node pkg="cigp_integration" type="cigp_bridge_node.py" name="cigp_planner" output="screen">
+    <param name="x_min" value="$(arg x_min)"/>
+    <param name="x_max" value="$(arg x_max)"/>
+    <param name="y_min" value="$(arg y_min)"/>
+    <param name="y_max" value="$(arg y_max)"/>
+    <param name="resolution" value="$(arg resolution)"/>
+    <param name="gamma1" value="$(arg gamma1)"/>
+    <param name="robot_radius" value="$(arg robot_radius)"/>
+    <param name="robot_fov" value="$(arg robot_fov)"/>
+    <param name="robot_range" value="$(arg robot_range)"/>
+    <param name="update_rate" value="$(arg update_rate)"/>
+    <param name="replan_interval" value="$(arg replan_interval)"/>
+    <param name="n_cctvs" value="$(arg n_cctvs)"/>
+    <param name="cctv_fov" value="$(arg cctv_fov)"/>
+    <param name="cctv_range" value="$(arg cctv_range)"/>
+    <param name="use_dwa" value="$(arg use_dwa)"/>
+    <param name="max_speed" value="$(arg max_speed)"/>
+    <param name="max_yaw_rate" value="$(arg max_yaw_rate)"/>
+    <param name="publish_cost_map" value="$(arg publish_cost_map)"/>
+  </node>
+
+</launch>

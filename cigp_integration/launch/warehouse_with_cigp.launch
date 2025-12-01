@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Warehouse PedSim + Robot + CIGP Global Planner -->
+  <!-- 기존 시뮬레이션을 포함하고 CIGP 플래너 추가 -->
+
+  <param name="use_sim_time" value="true"/>
+
+  <!-- Arguments from original warehouse_with_robot.launch -->
+  <arg name="scene_file" default="/environment/scenarios/warehouse_pedsim.xml"/>
+  <arg name="world_file" default="/environment/worlds/warehouse.world"/>
+  <arg name="simulation_factor" default="1.0"/>
+  <arg name="update_rate" default="25.0"/>
+  <arg name="gui" default="true"/>
+
+  <!-- Robot initial pose -->
+  <arg name="robot_name" default="p3dx"/>
+  <arg name="pose_initial_x" default="-9.0"/>
+  <arg name="pose_initial_y" default="9.0"/>
+  <arg name="pose_initial_z" default="0.01"/>
+
+  <!-- CIGP specific arguments -->
+  <arg name="cigp_gamma1" default="0.5"/>
+  <arg name="cigp_use_dwa" default="false"/>
+  <arg name="cigp_n_cctvs" default="4"/>
+
+  <!-- Include original warehouse simulation -->
+  <include file="$(find pedsim_simulator)/launch/warehouse_with_robot.launch">
+    <arg name="scene_file" value="$(arg scene_file)"/>
+    <arg name="world_file" value="$(arg world_file)"/>
+    <arg name="simulation_factor" value="$(arg simulation_factor)"/>
+    <arg name="update_rate" value="$(arg update_rate)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="pose_initial_x" value="$(arg pose_initial_x)"/>
+    <arg name="pose_initial_y" value="$(arg pose_initial_y)"/>
+    <arg name="pose_initial_z" value="$(arg pose_initial_z)"/>
+  </include>
+
+  <!-- CIGP Global Planner -->
+  <include file="$(find cigp_integration)/launch/cigp_planner.launch">
+    <arg name="gamma1" value="$(arg cigp_gamma1)"/>
+    <arg name="use_dwa" value="$(arg cigp_use_dwa)"/>
+    <arg name="n_cctvs" value="$(arg cigp_n_cctvs)"/>
+  </include>
+
+</launch>

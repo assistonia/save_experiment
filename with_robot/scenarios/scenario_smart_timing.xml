@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Scenario: Smart Timing - Test time-aware prediction -->
+<!-- Key tests: "blocked but will clear" + "clear but will block" -->
+<scenario>
+    <!-- Outer walls -->
+    <obstacle x1="-12.0" y1="-12.0" x2="-12.0" y2="12.0"/>
+    <obstacle x1="12.0" y1="-12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="-12.0" x2="12.0" y2="-12.0"/>
+
+    <!-- Shelf 1 (leftmost) -->
+    <obstacle x1="-12" y1="4" x2="-12" y2="-5"/>
+    <obstacle x1="-12" y1="-5" x2="-10" y2="-5"/>
+    <obstacle x1="-10" y1="-5" x2="-10" y2="4"/>
+    <obstacle x1="-10" y1="4" x2="-12" y2="4"/>
+
+    <!-- Shelf 2 -->
+    <obstacle x1="-7" y1="4" x2="-7" y2="-5"/>
+    <obstacle x1="-7" y1="-5" x2="-5" y2="-5"/>
+    <obstacle x1="-5" y1="-5" x2="-5" y2="4"/>
+    <obstacle x1="-5" y1="4" x2="-7" y2="4"/>
+
+    <!-- Shelf 3 -->
+    <obstacle x1="-2" y1="4" x2="-2" y2="-5"/>
+    <obstacle x1="-2" y1="-5" x2="0" y2="-5"/>
+    <obstacle x1="0" y1="-5" x2="0" y2="4"/>
+    <obstacle x1="0" y1="4" x2="-2" y2="4"/>
+
+    <!-- Shelf 4 -->
+    <obstacle x1="3" y1="4" x2="3" y2="-5"/>
+    <obstacle x1="3" y1="-5" x2="5" y2="-5"/>
+    <obstacle x1="5" y1="-5" x2="5" y2="4"/>
+    <obstacle x1="5" y1="4" x2="3" y2="4"/>
+
+    <!-- Shelf 5 (rightmost) -->
+    <obstacle x1="10" y1="4" x2="10" y2="-5"/>
+    <obstacle x1="10" y1="-5" x2="12" y2="-5"/>
+    <obstacle x1="12" y1="-5" x2="12" y2="4"/>
+    <obstacle x1="12" y1="4" x2="10" y2="4"/>
+
+    <!-- ========== WAYPOINTS ========== -->
+
+    <!-- Exit waypoints (corners) -->
+    <waypoint id="exit_top_left" x="-11" y="11" r="1"/>
+    <waypoint id="exit_top_right" x="11" y="11" r="1"/>
+    <waypoint id="exit_bot_left" x="-11" y="-11" r="1"/>
+    <waypoint id="exit_bot_right" x="11" y="-11" r="1"/>
+
+    <!-- Top corridor waypoints (y=8.5, r=2.5) -->
+    <waypoint id="top_0" x="-9" y="8.5" r="2.5"/>
+    <waypoint id="top_1" x="-4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_2" x="0" y="8.5" r="2.5"/>
+    <waypoint id="top_3" x="4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_4" x="9" y="8.5" r="2.5"/>
+
+    <!-- Bottom corridor waypoints (y=-8.5, r=2.5) -->
+    <waypoint id="bot_0" x="-9" y="-8.5" r="2.5"/>
+    <waypoint id="bot_1" x="-4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_2" x="0" y="-8.5" r="2.5"/>
+    <waypoint id="bot_3" x="4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_4" x="9" y="-8.5" r="2.5"/>
+
+    <!-- Aisle1 waypoints (x=-9.5, -7.5) -->
+    <waypoint id="aisle1_0" x="-9.5" y="-4" r="1"/>
+    <waypoint id="aisle1_1" x="-9.5" y="-2" r="1"/>
+    <waypoint id="aisle1_2" x="-9.5" y="0" r="1"/>
+    <waypoint id="aisle1_3" x="-9.5" y="2" r="1"/>
+    <waypoint id="aisle1_4" x="-9.5" y="4" r="1"/>
+    <waypoint id="aisle1_5" x="-7.5" y="-4" r="1"/>
+    <waypoint id="aisle1_6" x="-7.5" y="-2" r="1"/>
+    <waypoint id="aisle1_7" x="-7.5" y="0" r="1"/>
+    <waypoint id="aisle1_8" x="-7.5" y="2" r="1"/>
+    <waypoint id="aisle1_9" x="-7.5" y="4" r="1"/>
+
+    <!-- Aisle2 waypoints (x=-4.5, -2.5) -->
+    <waypoint id="aisle2_0" x="-4.5" y="-4" r="1"/>
+    <waypoint id="aisle2_1" x="-4.5" y="-2" r="1"/>
+    <waypoint id="aisle2_2" x="-4.5" y="0" r="1"/>
+    <waypoint id="aisle2_3" x="-4.5" y="2" r="1"/>
+    <waypoint id="aisle2_4" x="-4.5" y="4" r="1"/>
+    <waypoint id="aisle2_5" x="-2.5" y="-4" r="1"/>
+    <waypoint id="aisle2_6" x="-2.5" y="-2" r="1"/>
+    <waypoint id="aisle2_7" x="-2.5" y="0" r="1"/>
+    <waypoint id="aisle2_8" x="-2.5" y="2" r="1"/>
+    <waypoint id="aisle2_9" x="-2.5" y="4" r="1"/>
+
+    <!-- Aisle3 waypoints (x=0.5, 2.5) -->
+    <waypoint id="aisle3_0" x="0.5" y="-4" r="1"/>
+    <waypoint id="aisle3_1" x="0.5" y="-2" r="1"/>
+    <waypoint id="aisle3_2" x="0.5" y="0" r="1"/>
+    <waypoint id="aisle3_3" x="0.5" y="2" r="1"/>
+    <waypoint id="aisle3_4" x="0.5" y="4" r="1"/>
+    <waypoint id="aisle3_5" x="2.5" y="-4" r="1"/>
+    <waypoint id="aisle3_6" x="2.5" y="-2" r="1"/>
+    <waypoint id="aisle3_7" x="2.5" y="0" r="1"/>
+    <waypoint id="aisle3_8" x="2.5" y="2" r="1"/>
+    <waypoint id="aisle3_9" x="2.5" y="4" r="1"/>
+
+    <!-- Aisle4 waypoints (x=5.5, 7.5, 9.5) -->
+    <waypoint id="aisle4_0" x="5.5" y="-4" r="1"/>
+    <waypoint id="aisle4_1" x="5.5" y="-2" r="1"/>
+    <waypoint id="aisle4_2" x="5.5" y="0" r="1"/>
+    <waypoint id="aisle4_3" x="5.5" y="2" r="1"/>
+    <waypoint id="aisle4_4" x="5.5" y="4" r="1"/>
+    <waypoint id="aisle4_5" x="7.5" y="-4" r="1"/>
+    <waypoint id="aisle4_6" x="7.5" y="-2" r="1"/>
+    <waypoint id="aisle4_7" x="7.5" y="0" r="1"/>
+    <waypoint id="aisle4_8" x="7.5" y="2" r="1"/>
+    <waypoint id="aisle4_9" x="7.5" y="4" r="1"/>
+    <waypoint id="aisle4_10" x="9.5" y="-4" r="1"/>
+    <waypoint id="aisle4_11" x="9.5" y="-2" r="1"/>
+    <waypoint id="aisle4_12" x="9.5" y="0" r="1"/>
+    <waypoint id="aisle4_13" x="9.5" y="2" r="1"/>
+    <waypoint id="aisle4_14" x="9.5" y="4" r="1"/>
+
+    <!-- ========== AGENTS (4 people) ========== -->
+
+    <!--
+    TEST 1: Cross Traffic (Clear now, but will BLOCK soon)
+    - Person moving from aisle2 bottom to top corridor
+    - Robot going top_0 -> top_2 will encounter this person at top_1
+    - Smart robot: slow down or wait, knowing person will pass
+    -->
+    <agent x="-4.5" y="-4" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle2_0"/>
+        <addwaypoint id="aisle2_2"/>
+        <addwaypoint id="aisle2_4"/>
+        <addwaypoint id="top_1"/>
+        <addwaypoint id="top_2"/>
+    </agent>
+
+    <!--
+    TEST 2: Passing Through (Blocked now, but will CLEAR soon)
+    - Person crossing from top corridor down to bottom via aisle3
+    - Currently blocking top_2 area, but will move down soon
+    - Smart robot: proceed straight, knowing path will clear
+    -->
+    <agent x="0" y="8.5" n="1" dx="0" dy="-1" type="1">
+        <addwaypoint id="top_2"/>
+        <addwaypoint id="aisle3_4"/>
+        <addwaypoint id="aisle3_2"/>
+        <addwaypoint id="aisle3_0"/>
+        <addwaypoint id="bot_2"/>
+    </agent>
+
+    <!--
+    TEST 3: Idle Worker (Predictable obstacle)
+    - Standing still at aisle4 middle for extended time
+    - Robot must plan around this static obstacle
+    -->
+    <agent x="7.5" y="0" n="1" dx="0" dy="0" type="2">
+        <addwaypoint id="aisle4_7" waittime="15"/>
+        <addwaypoint id="aisle4_9"/>
+        <addwaypoint id="top_4"/>
+    </agent>
+
+    <!--
+    TEST 4: Converging path (Complex timing)
+    - Person moving from bot_4 towards bot_0
+    - May intersect with robot's path depending on timing
+    -->
+    <agent x="9" y="-8.5" n="1" dx="-1" dy="0" type="0">
+        <addwaypoint id="bot_4"/>
+        <addwaypoint id="bot_3"/>
+        <addwaypoint id="bot_2"/>
+        <addwaypoint id="bot_1"/>
+        <addwaypoint id="bot_0"/>
+    </agent>
+
+</scenario>

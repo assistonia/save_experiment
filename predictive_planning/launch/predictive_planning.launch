@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Predictive Planning Node -->
+    <!-- SingularTrajectory 예측 + 시간 인식 A* 경로 계획 -->
+
+    <!-- Arguments -->
+    <arg name="scenario" default="warehouse"/>
+    <arg name="use_mock" default="false"/>
+    <arg name="enable_logging" default="true"/>
+
+    <!-- Predictive Planning Parameters -->
+    <arg name="resolution" default="0.2"/>
+    <arg name="robot_velocity" default="0.8"/>
+    <arg name="sigma_scale" default="0.8"/>
+    <arg name="sigma_min" default="0.3"/>
+    <arg name="social_cost_weight" default="2.0"/>
+
+    <!-- Predictive Planning Node -->
+    <node name="predictive_planning_bridge" pkg="predictive_planning" type="predictive_planning_bridge.py" output="screen">
+        <!-- Map range (warehouse) -->
+        <param name="x_min" value="-12.0"/>
+        <param name="x_max" value="12.0"/>
+        <param name="y_min" value="-12.0"/>
+        <param name="y_max" value="12.0"/>
+
+        <!-- Planning parameters -->
+        <param name="resolution" value="$(arg resolution)"/>
+        <param name="robot_velocity" value="$(arg robot_velocity)"/>
+
+        <!-- Cost calculation (핵심 파라미터) -->
+        <param name="sigma_scale" value="$(arg sigma_scale)"/>
+        <param name="sigma_min" value="$(arg sigma_min)"/>
+        <param name="social_cost_weight" value="$(arg social_cost_weight)"/>
+
+        <!-- Prediction parameters -->
+        <param name="time_step" value="0.4"/>
+        <param name="num_samples" value="20"/>
+        <param name="pred_horizon" value="12"/>
+
+        <!-- Options -->
+        <param name="use_mock" value="$(arg use_mock)"/>
+        <param name="enable_logging" value="$(arg enable_logging)"/>
+    </node>
+
+</launch>

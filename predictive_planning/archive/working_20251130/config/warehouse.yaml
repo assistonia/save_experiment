@@ -1,0 +1,43 @@
+# Predictive Planning Configuration - Warehouse
+#
+# 핵심 파라미터 설명:
+# - sigma_scale: 개별 샘플의 위험 반경 축소 계수 (0.8 = 80%)
+# - sigma_min: 최소 위험 반경 (정지 시에도 유지)
+# - social_cost_weight: A* f(n) = g(n) + h(n) + w * social(n) 에서 w 값
+
+# === Map Settings ===
+x_range: [-12.0, 12.0]
+y_range: [-12.0, 12.0]
+resolution: 0.2  # A* 그리드 해상도 (m)
+
+# === Prediction Settings ===
+time_step: 0.4        # SingularTrajectory 시간 간격 (초)
+num_samples: 20       # 예측 샘플 수
+pred_horizon: 12      # 예측 시점 수 (12 * 0.4 = 4.8초)
+
+# === Robot Settings ===
+robot_radius: 0.25    # 로봇 반경 (m)
+robot_velocity: 0.8   # 로봇 평균 속도 (m/s)
+
+# === Cost Calculation (핵심!) ===
+sigma_scale: 0.8      # 개별 반경 축소 [합의된 값]
+sigma_min: 0.3        # 최소 반경
+sigma_base: 0.5       # 기본 반경 (속도 0)
+use_direction_cost: true  # tau 방향성 비용 사용
+
+# === A* Settings ===
+heuristic_weight: 1.0
+social_cost_weight: 2.0   # 소셜 비용 가중치
+max_iterations: 10000
+
+# === Static Obstacles (Warehouse) ===
+static_obstacles:
+  - {x_min: -12, x_max: -10, y_min: -5, y_max: 4}  # Shelf 1
+  - {x_min: -7, x_max: -5, y_min: -5, y_max: 4}    # Shelf 2
+  - {x_min: -2, x_max: 0, y_min: -5, y_max: 4}     # Shelf 3
+  - {x_min: 3, x_max: 5, y_min: -5, y_max: 4}      # Shelf 4
+  - {x_min: 10, x_max: 12, y_min: -5, y_max: 4}    # Shelf 5
+
+# === Logging ===
+enable_logging: true
+save_visualization: true

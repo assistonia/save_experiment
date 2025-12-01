@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Scenario: Crossing Sparse - Fewer people crossing with gaps -->
+<!-- Tests prediction advantage: robot can find and exploit gaps -->
+<!-- Total: 6 people (3 left, 3 right) with spacing to allow passage -->
+<scenario>
+    <!-- Outer walls -->
+    <obstacle x1="-12.0" y1="-12.0" x2="-12.0" y2="12.0"/>
+    <obstacle x1="12.0" y1="-12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="-12.0" x2="12.0" y2="-12.0"/>
+
+    <!-- Waypoints for horizontal movement (wider radius for spread) -->
+    <waypoint id="left_lower" x="-10" y="-4" r="1.5"/>
+    <waypoint id="right_lower" x="10" y="-4" r="1.5"/>
+
+    <waypoint id="left_center" x="-10" y="0" r="1.5"/>
+    <waypoint id="right_center" x="10" y="0" r="1.5"/>
+
+    <waypoint id="left_upper" x="-10" y="4" r="1.5"/>
+    <waypoint id="right_upper" x="10" y="4" r="1.5"/>
+
+    <!-- Group 1: Lower crossing (y=-4) - 1 person each direction -->
+    <!-- Starts from left, goes right -->
+    <agent x="-10" y="-4" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_lower"/>
+        <addwaypoint id="left_lower"/>
+        <addwaypoint id="right_lower"/>
+        <addwaypoint id="left_lower"/>
+    </agent>
+
+    <!-- Group 2: Center crossing (y=0) - 1 person each direction -->
+    <!-- Starts from right, goes left (opposite phase) -->
+    <agent x="10" y="0" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_center"/>
+        <addwaypoint id="right_center"/>
+        <addwaypoint id="left_center"/>
+        <addwaypoint id="right_center"/>
+    </agent>
+
+    <!-- Additional center crossing with offset start -->
+    <agent x="-5" y="0" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_center"/>
+        <addwaypoint id="left_center"/>
+        <addwaypoint id="right_center"/>
+        <addwaypoint id="left_center"/>
+    </agent>
+
+    <!-- Group 3: Upper crossing (y=4) - 1 person each direction -->
+    <agent x="-10" y="4" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_upper"/>
+        <addwaypoint id="left_upper"/>
+        <addwaypoint id="right_upper"/>
+        <addwaypoint id="left_upper"/>
+    </agent>
+
+    <agent x="5" y="4" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_upper"/>
+        <addwaypoint id="right_upper"/>
+        <addwaypoint id="left_upper"/>
+        <addwaypoint id="right_upper"/>
+    </agent>
+
+    <!-- One more at lower with offset -->
+    <agent x="5" y="-4" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_lower"/>
+        <addwaypoint id="right_lower"/>
+        <addwaypoint id="left_lower"/>
+        <addwaypoint id="right_lower"/>
+    </agent>
+
+</scenario>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Scenario: Busy Warehouse - Complex mixed situation with all worker types -->
+<!-- 8 people: Pickers, Restockers, Transporters, Inspector, Idle workers -->
+<scenario>
+    <!-- Outer walls -->
+    <obstacle x1="-12.0" y1="-12.0" x2="-12.0" y2="12.0"/>
+    <obstacle x1="12.0" y1="-12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="-12.0" x2="12.0" y2="-12.0"/>
+
+    <!-- Shelf 1 (leftmost) -->
+    <obstacle x1="-12" y1="4" x2="-12" y2="-5"/>
+    <obstacle x1="-12" y1="-5" x2="-10" y2="-5"/>
+    <obstacle x1="-10" y1="-5" x2="-10" y2="4"/>
+    <obstacle x1="-10" y1="4" x2="-12" y2="4"/>
+
+    <!-- Shelf 2 -->
+    <obstacle x1="-7" y1="4" x2="-7" y2="-5"/>
+    <obstacle x1="-7" y1="-5" x2="-5" y2="-5"/>
+    <obstacle x1="-5" y1="-5" x2="-5" y2="4"/>
+    <obstacle x1="-5" y1="4" x2="-7" y2="4"/>
+
+    <!-- Shelf 3 -->
+    <obstacle x1="-2" y1="4" x2="-2" y2="-5"/>
+    <obstacle x1="-2" y1="-5" x2="0" y2="-5"/>
+    <obstacle x1="0" y1="-5" x2="0" y2="4"/>
+    <obstacle x1="0" y1="4" x2="-2" y2="4"/>
+
+    <!-- Shelf 4 -->
+    <obstacle x1="3" y1="4" x2="3" y2="-5"/>
+    <obstacle x1="3" y1="-5" x2="5" y2="-5"/>
+    <obstacle x1="5" y1="-5" x2="5" y2="4"/>
+    <obstacle x1="5" y1="4" x2="3" y2="4"/>
+
+    <!-- Shelf 5 (rightmost) -->
+    <obstacle x1="10" y1="4" x2="10" y2="-5"/>
+    <obstacle x1="10" y1="-5" x2="12" y2="-5"/>
+    <obstacle x1="12" y1="-5" x2="12" y2="4"/>
+    <obstacle x1="12" y1="4" x2="10" y2="4"/>
+
+    <!-- ========== WAYPOINTS ========== -->
+
+    <!-- Exit waypoints (corners) -->
+    <waypoint id="exit_top_left" x="-11" y="11" r="1"/>
+    <waypoint id="exit_top_right" x="11" y="11" r="1"/>
+    <waypoint id="exit_bot_left" x="-11" y="-11" r="1"/>
+    <waypoint id="exit_bot_right" x="11" y="-11" r="1"/>
+
+    <!-- Top corridor waypoints (y=8.5, r=2.5) -->
+    <waypoint id="top_0" x="-9" y="8.5" r="2.5"/>
+    <waypoint id="top_1" x="-4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_2" x="0" y="8.5" r="2.5"/>
+    <waypoint id="top_3" x="4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_4" x="9" y="8.5" r="2.5"/>
+
+    <!-- Bottom corridor waypoints (y=-8.5, r=2.5) -->
+    <waypoint id="bot_0" x="-9" y="-8.5" r="2.5"/>
+    <waypoint id="bot_1" x="-4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_2" x="0" y="-8.5" r="2.5"/>
+    <waypoint id="bot_3" x="4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_4" x="9" y="-8.5" r="2.5"/>
+
+    <!-- Aisle1 waypoints (x=-9.5, -7.5) -->
+    <waypoint id="aisle1_0" x="-9.5" y="-4" r="1"/>
+    <waypoint id="aisle1_1" x="-9.5" y="-2" r="1"/>
+    <waypoint id="aisle1_2" x="-9.5" y="0" r="1"/>
+    <waypoint id="aisle1_3" x="-9.5" y="2" r="1"/>
+    <waypoint id="aisle1_4" x="-9.5" y="4" r="1"/>
+    <waypoint id="aisle1_5" x="-7.5" y="-4" r="1"/>
+    <waypoint id="aisle1_6" x="-7.5" y="-2" r="1"/>
+    <waypoint id="aisle1_7" x="-7.5" y="0" r="1"/>
+    <waypoint id="aisle1_8" x="-7.5" y="2" r="1"/>
+    <waypoint id="aisle1_9" x="-7.5" y="4" r="1"/>
+
+    <!-- Aisle2 waypoints (x=-4.5, -2.5) -->
+    <waypoint id="aisle2_0" x="-4.5" y="-4" r="1"/>
+    <waypoint id="aisle2_1" x="-4.5" y="-2" r="1"/>
+    <waypoint id="aisle2_2" x="-4.5" y="0" r="1"/>
+    <waypoint id="aisle2_3" x="-4.5" y="2" r="1"/>
+    <waypoint id="aisle2_4" x="-4.5" y="4" r="1"/>
+    <waypoint id="aisle2_5" x="-2.5" y="-4" r="1"/>
+    <waypoint id="aisle2_6" x="-2.5" y="-2" r="1"/>
+    <waypoint id="aisle2_7" x="-2.5" y="0" r="1"/>
+    <waypoint id="aisle2_8" x="-2.5" y="2" r="1"/>
+    <waypoint id="aisle2_9" x="-2.5" y="4" r="1"/>
+
+    <!-- Aisle3 waypoints (x=0.5, 2.5) -->
+    <waypoint id="aisle3_0" x="0.5" y="-4" r="1"/>
+    <waypoint id="aisle3_1" x="0.5" y="-2" r="1"/>
+    <waypoint id="aisle3_2" x="0.5" y="0" r="1"/>
+    <waypoint id="aisle3_3" x="0.5" y="2" r="1"/>
+    <waypoint id="aisle3_4" x="0.5" y="4" r="1"/>
+    <waypoint id="aisle3_5" x="2.5" y="-4" r="1"/>
+    <waypoint id="aisle3_6" x="2.5" y="-2" r="1"/>
+    <waypoint id="aisle3_7" x="2.5" y="0" r="1"/>
+    <waypoint id="aisle3_8" x="2.5" y="2" r="1"/>
+    <waypoint id="aisle3_9" x="2.5" y="4" r="1"/>
+
+    <!-- Aisle4 waypoints (x=5.5, 7.5, 9.5) -->
+    <waypoint id="aisle4_0" x="5.5" y="-4" r="1"/>
+    <waypoint id="aisle4_1" x="5.5" y="-2" r="1"/>
+    <waypoint id="aisle4_2" x="5.5" y="0" r="1"/>
+    <waypoint id="aisle4_3" x="5.5" y="2" r="1"/>
+    <waypoint id="aisle4_4" x="5.5" y="4" r="1"/>
+    <waypoint id="aisle4_5" x="7.5" y="-4" r="1"/>
+    <waypoint id="aisle4_6" x="7.5" y="-2" r="1"/>
+    <waypoint id="aisle4_7" x="7.5" y="0" r="1"/>
+    <waypoint id="aisle4_8" x="7.5" y="2" r="1"/>
+    <waypoint id="aisle4_9" x="7.5" y="4" r="1"/>
+    <waypoint id="aisle4_10" x="9.5" y="-4" r="1"/>
+    <waypoint id="aisle4_11" x="9.5" y="-2" r="1"/>
+    <waypoint id="aisle4_12" x="9.5" y="0" r="1"/>
+    <waypoint id="aisle4_13" x="9.5" y="2" r="1"/>
+    <waypoint id="aisle4_14" x="9.5" y="4" r="1"/>
+
+    <!-- ========== AGENTS (8 people) ========== -->
+
+    <!-- ===== PICKERS (2) - Picking items with wait times ===== -->
+
+    <!-- Picker 1: Working in aisle1 -->
+    <agent x="-9" y="8.5" n="1" dx="0" dy="-1" type="1">
+        <addwaypoint id="top_0"/>
+        <addwaypoint id="aisle1_4" waittime="4"/>
+        <addwaypoint id="aisle1_3" waittime="3"/>
+        <addwaypoint id="aisle1_1" waittime="5"/>
+        <addwaypoint id="aisle1_0"/>
+        <addwaypoint id="bot_0"/>
+    </agent>
+
+    <!-- Picker 2: Working in aisle3 -->
+    <agent x="0.5" y="-4" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle3_0" waittime="3"/>
+        <addwaypoint id="aisle3_2" waittime="4"/>
+        <addwaypoint id="aisle3_4" waittime="3"/>
+        <addwaypoint id="top_2"/>
+    </agent>
+
+    <!-- ===== RESTOCKER (1) - Slow movement with long wait times ===== -->
+
+    <!-- Restocker: Visiting multiple shelves -->
+    <agent x="-11" y="11" n="1" dx="1" dy="0" type="2">
+        <addwaypoint id="exit_top_left"/>
+        <addwaypoint id="top_0"/>
+        <addwaypoint id="aisle1_4" waittime="6"/>
+        <addwaypoint id="top_1"/>
+        <addwaypoint id="aisle2_4" waittime="5"/>
+        <addwaypoint id="top_2"/>
+        <addwaypoint id="aisle3_4" waittime="7"/>
+        <addwaypoint id="top_3"/>
+    </agent>
+
+    <!-- ===== TRANSPORTERS (2) - Fast corridor movement ===== -->
+
+    <!-- Transporter 1: Top corridor left to right -->
+    <agent x="-11" y="11" n="1" dx="1" dy="0" type="0">
+        <addwaypoint id="exit_top_left"/>
+        <addwaypoint id="top_0"/>
+        <addwaypoint id="top_1"/>
+        <addwaypoint id="top_2"/>
+        <addwaypoint id="top_3"/>
+        <addwaypoint id="top_4"/>
+        <addwaypoint id="exit_top_right"/>
+    </agent>
+
+    <!-- Transporter 2: Bottom corridor right to left -->
+    <agent x="11" y="-11" n="1" dx="-1" dy="0" type="0">
+        <addwaypoint id="exit_bot_right"/>
+        <addwaypoint id="bot_4"/>
+        <addwaypoint id="bot_3"/>
+        <addwaypoint id="bot_2"/>
+        <addwaypoint id="bot_1"/>
+        <addwaypoint id="bot_0"/>
+        <addwaypoint id="exit_bot_left"/>
+    </agent>
+
+    <!-- ===== INSPECTOR (1) - Irregular patrol route ===== -->
+
+    <!-- Inspector: Checking various locations -->
+    <agent x="9" y="8.5" n="1" dx="-1" dy="0" type="3">
+        <addwaypoint id="top_4"/>
+        <addwaypoint id="aisle4_9" waittime="2"/>
+        <addwaypoint id="top_3"/>
+        <addwaypoint id="top_2"/>
+        <addwaypoint id="aisle2_4" waittime="1"/>
+        <addwaypoint id="aisle2_0"/>
+        <addwaypoint id="bot_1"/>
+        <addwaypoint id="bot_3"/>
+        <addwaypoint id="aisle4_5" waittime="2"/>
+    </agent>
+
+    <!-- ===== IDLE WORKERS (2) - Standing at fixed locations ===== -->
+
+    <!-- Idle Worker 1: Taking break in aisle2 -->
+    <agent x="-2.5" y="0" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="aisle2_7" waittime="12"/>
+        <addwaypoint id="aisle2_9"/>
+        <addwaypoint id="top_1"/>
+    </agent>
+
+    <!-- Idle Worker 2: Checking inventory in aisle4 -->
+    <agent x="5.5" y="2" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="aisle4_3" waittime="10"/>
+        <addwaypoint id="aisle4_4"/>
+        <addwaypoint id="top_3"/>
+    </agent>
+
+</scenario>

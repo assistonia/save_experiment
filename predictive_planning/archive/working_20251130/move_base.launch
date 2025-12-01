@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Move Base with DWA Local Planner -->
+
+  <!-- Goal position (warehouse.json: robot_goal: [9, -10]) -->
+  <arg name="goal_x" default="9.0"/>
+  <arg name="goal_y" default="-10.0"/>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- Remap cmd_vel to /cmd_vel_raw for inverter -->
+    <remap from="cmd_vel" to="/cmd_vel_raw"/>
+    <remap from="odom" to="/p3dx/odom"/>
+
+    <!-- Costmap parameters -->
+    <rosparam file="/navigation/config/costmap_common.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="/navigation/config/costmap_common.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="/navigation/config/local_costmap.yaml" command="load"/>
+    <rosparam file="/navigation/config/global_costmap.yaml" command="load"/>
+
+    <!-- Local planner (DWA) -->
+    <rosparam file="/navigation/config/dwa_local_planner.yaml" command="load"/>
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+    <!-- Global planner -->
+    <param name="base_global_planner" value="navfn/NavfnROS"/>
+
+    <!-- Tolerances -->
+    <param name="controller_frequency" value="10.0"/>
+    <param name="planner_frequency" value="1.0"/>
+  </node>
+
+</launch>

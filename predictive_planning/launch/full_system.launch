@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Full System Launch -->
+    <!-- PedSim + Trajectory Prediction + Predictive Planning -->
+
+    <!-- Arguments -->
+    <arg name="scenario" default="warehouse"/>
+    <arg name="enable_logging" default="true"/>
+
+    <!-- 1. PedSim Simulation (기존 환경) -->
+    <!-- 주의: 이 부분은 기존 환경의 launch 파일을 include -->
+    <!-- <include file="$(find pedsim_simulator)/launch/warehouse.launch"/> -->
+
+    <!-- 2. Trajectory Prediction (기존 모듈) -->
+    <!-- <include file="$(find trajectory_prediction)/launch/trajectory_prediction.launch">
+        <arg name="enable_logging" value="$(arg enable_logging)"/>
+    </include> -->
+
+    <!-- 3. Predictive Planning (새 모듈) -->
+    <include file="$(find predictive_planning)/launch/predictive_planning.launch">
+        <arg name="scenario" value="$(arg scenario)"/>
+        <arg name="enable_logging" value="$(arg enable_logging)"/>
+    </include>
+
+</launch>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Scenario: Crossing - People continuously crossing robot's path -->
+<!-- Tests dynamic avoidance: robot must weave through moving people -->
+<!-- Total: 10 people moving left-right, robot moves bottom to top -->
+<scenario>
+    <!-- Outer walls -->
+    <obstacle x1="-12.0" y1="-12.0" x2="-12.0" y2="12.0"/>
+    <obstacle x1="12.0" y1="-12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="-12.0" x2="12.0" y2="-12.0"/>
+
+    <!-- Waypoints for horizontal movement -->
+    <waypoint id="left_side" x="-10" y="0" r="2"/>
+    <waypoint id="right_side" x="10" y="0" r="2"/>
+
+    <waypoint id="left_upper" x="-10" y="3" r="2"/>
+    <waypoint id="right_upper" x="10" y="3" r="2"/>
+
+    <waypoint id="left_lower" x="-10" y="-3" r="2"/>
+    <waypoint id="right_lower" x="10" y="-3" r="2"/>
+
+    <waypoint id="left_mid_up" x="-10" y="6" r="2"/>
+    <waypoint id="right_mid_up" x="10" y="6" r="2"/>
+
+    <waypoint id="left_mid_down" x="-10" y="-6" r="2"/>
+    <waypoint id="right_mid_down" x="10" y="-6" r="2"/>
+
+    <!-- Group 1: Center crossing (y=0) - 2 people going opposite directions -->
+    <agent x="-10" y="0" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_side"/>
+        <addwaypoint id="left_side"/>
+        <addwaypoint id="right_side"/>
+        <addwaypoint id="left_side"/>
+    </agent>
+
+    <agent x="10" y="0" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_side"/>
+        <addwaypoint id="right_side"/>
+        <addwaypoint id="left_side"/>
+        <addwaypoint id="right_side"/>
+    </agent>
+
+    <!-- Group 2: Upper crossing (y=3) - 2 people -->
+    <agent x="-10" y="3" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_upper"/>
+        <addwaypoint id="left_upper"/>
+        <addwaypoint id="right_upper"/>
+        <addwaypoint id="left_upper"/>
+    </agent>
+
+    <agent x="10" y="3" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_upper"/>
+        <addwaypoint id="right_upper"/>
+        <addwaypoint id="left_upper"/>
+        <addwaypoint id="right_upper"/>
+    </agent>
+
+    <!-- Group 3: Lower crossing (y=-3) - 2 people -->
+    <agent x="-10" y="-3" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_lower"/>
+        <addwaypoint id="left_lower"/>
+        <addwaypoint id="right_lower"/>
+        <addwaypoint id="left_lower"/>
+    </agent>
+
+    <agent x="10" y="-3" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_lower"/>
+        <addwaypoint id="right_lower"/>
+        <addwaypoint id="left_lower"/>
+        <addwaypoint id="right_lower"/>
+    </agent>
+
+    <!-- Group 4: Upper-mid crossing (y=6) - 2 people -->
+    <agent x="-10" y="6" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_mid_up"/>
+        <addwaypoint id="left_mid_up"/>
+        <addwaypoint id="right_mid_up"/>
+        <addwaypoint id="left_mid_up"/>
+    </agent>
+
+    <agent x="10" y="6" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_mid_up"/>
+        <addwaypoint id="right_mid_up"/>
+        <addwaypoint id="left_mid_up"/>
+        <addwaypoint id="right_mid_up"/>
+    </agent>
+
+    <!-- Group 5: Lower-mid crossing (y=-6) - 2 people -->
+    <agent x="-10" y="-6" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="right_mid_down"/>
+        <addwaypoint id="left_mid_down"/>
+        <addwaypoint id="right_mid_down"/>
+        <addwaypoint id="left_mid_down"/>
+    </agent>
+
+    <agent x="10" y="-6" n="1" dx="0" dy="0" type="0">
+        <addwaypoint id="left_mid_down"/>
+        <addwaypoint id="right_mid_down"/>
+        <addwaypoint id="left_mid_down"/>
+        <addwaypoint id="right_mid_down"/>
+    </agent>
+
+</scenario>

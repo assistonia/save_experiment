@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Warehouse Simulation with Trajectory Prediction -->
+  <!-- 기존 warehouse 시뮬레이션 + SingularTrajectory 경로 예측 -->
+
+  <!-- Include base warehouse simulation -->
+  <include file="$(find pedsim_simulator)/launch/warehouse_pedsim.launch">
+    <!-- 필요 시 시뮬레이션 파라미터 오버라이드 -->
+  </include>
+
+  <!-- Trajectory Prediction Node -->
+  <arg name="prediction_rate" default="2.5"/>
+  <arg name="show_samples" default="5"/>
+
+  <node pkg="trajectory_prediction" type="prediction_bridge_node.py"
+        name="trajectory_prediction" output="screen">
+    <param name="scenario" value="warehouse"/>
+    <param name="prediction_rate" value="$(arg prediction_rate)"/>
+    <param name="show_samples" value="$(arg show_samples)"/>
+    <param name="z_height" value="0.1"/>
+  </node>
+
+  <!-- RViz for visualization (optional) -->
+  <arg name="rviz" default="true"/>
+  <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz"
+        args="-d $(find trajectory_prediction)/rviz/trajectory_prediction.rviz"/>
+
+</launch>

@@ -1,0 +1,8 @@
+{
+  "start_time": "2025-11-28T07:00:00.830105",
+  "scenario": "warehouse",
+  "prediction_rate": 2.5,
+  "obs_len": 8,
+  "pred_len": 12,
+  "num_samples": 20
+}

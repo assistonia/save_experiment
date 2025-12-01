@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Scenario: Block Dynamic - All 4 aisles blocked, but open sequentially -->
+<!-- Tests time-aware prediction: wait for opening or take long detour -->
+<!-- Total: 13 people (9 blockers with real jobs + 2 corridor + 2 idle) -->
+<!--
+    Timeline (workers finish tasks and exit):
+    t=0:   All blocked (workers doing tasks)
+    t~35:  aisle1 clears (Pickers finish and exit)
+    t~55:  aisle2 clears (Pickers finish and exit)
+    t~75:  aisle3 clears (Restocker + Picker finish)
+    t~95:  aisle4 clears (Inspector + Pickers finish)
+-->
+<scenario>
+    <!-- Outer walls -->
+    <obstacle x1="-12.0" y1="-12.0" x2="-12.0" y2="12.0"/>
+    <obstacle x1="12.0" y1="-12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="-12.0" x2="12.0" y2="-12.0"/>
+
+    <!-- Shelves -->
+    <obstacle x1="-12" y1="4" x2="-12" y2="-5"/>
+    <obstacle x1="-12" y1="-5" x2="-10" y2="-5"/>
+    <obstacle x1="-10" y1="-5" x2="-10" y2="4"/>
+    <obstacle x1="-10" y1="4" x2="-12" y2="4"/>
+
+    <obstacle x1="-7" y1="4" x2="-7" y2="-5"/>
+    <obstacle x1="-7" y1="-5" x2="-5" y2="-5"/>
+    <obstacle x1="-5" y1="-5" x2="-5" y2="4"/>
+    <obstacle x1="-5" y1="4" x2="-7" y2="4"/>
+
+    <obstacle x1="-2" y1="4" x2="-2" y2="-5"/>
+    <obstacle x1="-2" y1="-5" x2="0" y2="-5"/>
+    <obstacle x1="0" y1="-5" x2="0" y2="4"/>
+    <obstacle x1="0" y1="4" x2="-2" y2="4"/>
+
+    <obstacle x1="3" y1="4" x2="3" y2="-5"/>
+    <obstacle x1="3" y1="-5" x2="5" y2="-5"/>
+    <obstacle x1="5" y1="-5" x2="5" y2="4"/>
+    <obstacle x1="5" y1="4" x2="3" y2="4"/>
+
+    <obstacle x1="10" y1="4" x2="10" y2="-5"/>
+    <obstacle x1="10" y1="-5" x2="12" y2="-5"/>
+    <obstacle x1="12" y1="-5" x2="12" y2="4"/>
+    <obstacle x1="12" y1="4" x2="10" y2="4"/>
+
+    <!-- Waypoints -->
+    <waypoint id="exit_top_left" x="-11" y="11" r="1"/>
+    <waypoint id="exit_top_right" x="11" y="11" r="1"/>
+    <waypoint id="exit_bot_left" x="-11" y="-11" r="1"/>
+    <waypoint id="exit_bot_right" x="11" y="-11" r="1"/>
+
+    <waypoint id="top_0" x="-9" y="8.5" r="2.5"/>
+    <waypoint id="top_1" x="-4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_2" x="0" y="8.5" r="2.5"/>
+    <waypoint id="top_3" x="4.5" y="8.5" r="2.5"/>
+    <waypoint id="top_4" x="9" y="8.5" r="2.5"/>
+
+    <waypoint id="bot_0" x="-9" y="-8.5" r="2.5"/>
+    <waypoint id="bot_1" x="-4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_2" x="0" y="-8.5" r="2.5"/>
+    <waypoint id="bot_3" x="4.5" y="-8.5" r="2.5"/>
+    <waypoint id="bot_4" x="9" y="-8.5" r="2.5"/>
+
+    <waypoint id="aisle1_0" x="-9.5" y="-4" r="1"/>
+    <waypoint id="aisle1_1" x="-9.5" y="-2" r="1"/>
+    <waypoint id="aisle1_2" x="-9.5" y="0" r="1"/>
+    <waypoint id="aisle1_3" x="-9.5" y="2" r="1"/>
+    <waypoint id="aisle1_4" x="-9.5" y="4" r="1"/>
+    <waypoint id="aisle1_5" x="-7.5" y="-4" r="1"/>
+    <waypoint id="aisle1_6" x="-7.5" y="-2" r="1"/>
+    <waypoint id="aisle1_7" x="-7.5" y="0" r="1"/>
+    <waypoint id="aisle1_8" x="-7.5" y="2" r="1"/>
+    <waypoint id="aisle1_9" x="-7.5" y="4" r="1"/>
+
+    <waypoint id="aisle2_0" x="-4.5" y="-4" r="1"/>
+    <waypoint id="aisle2_1" x="-4.5" y="-2" r="1"/>
+    <waypoint id="aisle2_2" x="-4.5" y="0" r="1"/>
+    <waypoint id="aisle2_3" x="-4.5" y="2" r="1"/>
+    <waypoint id="aisle2_4" x="-4.5" y="4" r="1"/>
+    <waypoint id="aisle2_5" x="-2.5" y="-4" r="1"/>
+    <waypoint id="aisle2_6" x="-2.5" y="-2" r="1"/>
+    <waypoint id="aisle2_7" x="-2.5" y="0" r="1"/>
+    <waypoint id="aisle2_8" x="-2.5" y="2" r="1"/>
+    <waypoint id="aisle2_9" x="-2.5" y="4" r="1"/>
+
+    <waypoint id="aisle3_0" x="0.5" y="-4" r="1"/>
+    <waypoint id="aisle3_1" x="0.5" y="-2" r="1"/>
+    <waypoint id="aisle3_2" x="0.5" y="0" r="1"/>
+    <waypoint id="aisle3_3" x="0.5" y="2" r="1"/>
+    <waypoint id="aisle3_4" x="0.5" y="4" r="1"/>
+    <waypoint id="aisle3_5" x="2.5" y="-4" r="1"/>
+    <waypoint id="aisle3_6" x="2.5" y="-2" r="1"/>
+    <waypoint id="aisle3_7" x="2.5" y="0" r="1"/>
+    <waypoint id="aisle3_8" x="2.5" y="2" r="1"/>
+    <waypoint id="aisle3_9" x="2.5" y="4" r="1"/>
+
+    <waypoint id="aisle4_0" x="5.5" y="-4" r="1"/>
+    <waypoint id="aisle4_1" x="5.5" y="-2" r="1"/>
+    <waypoint id="aisle4_2" x="5.5" y="0" r="1"/>
+    <waypoint id="aisle4_3" x="5.5" y="2" r="1"/>
+    <waypoint id="aisle4_4" x="5.5" y="4" r="1"/>
+    <waypoint id="aisle4_5" x="7.5" y="-4" r="1"/>
+    <waypoint id="aisle4_6" x="7.5" y="-2" r="1"/>
+    <waypoint id="aisle4_7" x="7.5" y="0" r="1"/>
+    <waypoint id="aisle4_8" x="7.5" y="2" r="1"/>
+    <waypoint id="aisle4_9" x="7.5" y="4" r="1"/>
+    <waypoint id="aisle4_10" x="9.5" y="-4" r="1"/>
+    <waypoint id="aisle4_11" x="9.5" y="-2" r="1"/>
+    <waypoint id="aisle4_12" x="9.5" y="0" r="1"/>
+    <waypoint id="aisle4_13" x="9.5" y="2" r="1"/>
+    <waypoint id="aisle4_14" x="9.5" y="4" r="1"/>
+
+    <!-- ===== AISLE1 WORKERS - OPENS FIRST (shortest tasks ~35s) ===== -->
+
+    <!-- Picker A: 빠른 피킹 후 위쪽 출구 -->
+    <agent x="-9.5" y="-2" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle1_1" waittime="6"/>
+        <addwaypoint id="aisle1_2" waittime="8"/>
+        <addwaypoint id="aisle1_3" waittime="7"/>
+        <addwaypoint id="aisle1_4" waittime="5"/>
+        <addwaypoint id="top_0"/>
+        <addwaypoint id="exit_top_left"/>
+    </agent>
+
+    <!-- Picker B: 빠른 피킹 후 아래쪽 출구 -->
+    <agent x="-7.5" y="2" n="1" dx="0" dy="-1" type="1">
+        <addwaypoint id="aisle1_8" waittime="5"/>
+        <addwaypoint id="aisle1_7" waittime="8"/>
+        <addwaypoint id="aisle1_6" waittime="6"/>
+        <addwaypoint id="aisle1_5" waittime="5"/>
+        <addwaypoint id="bot_0"/>
+        <addwaypoint id="exit_bot_left"/>
+    </agent>
+
+    <!-- ===== AISLE2 WORKERS - OPENS SECOND (~55s) ===== -->
+
+    <!-- Picker C: 중간 작업량 후 위쪽 출구 -->
+    <agent x="-4.5" y="-4" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle2_0" waittime="8"/>
+        <addwaypoint id="aisle2_1" waittime="10"/>
+        <addwaypoint id="aisle2_2" waittime="12"/>
+        <addwaypoint id="aisle2_3" waittime="8"/>
+        <addwaypoint id="aisle2_4" waittime="6"/>
+        <addwaypoint id="top_1"/>
+        <addwaypoint id="exit_top_left"/>
+    </agent>
+
+    <!-- Picker D: 중간 작업량 후 아래쪽 출구 -->
+    <agent x="-2.5" y="4" n="1" dx="0" dy="-1" type="1">
+        <addwaypoint id="aisle2_9" waittime="10"/>
+        <addwaypoint id="aisle2_8" waittime="8"/>
+        <addwaypoint id="aisle2_7" waittime="12"/>
+        <addwaypoint id="aisle2_6" waittime="10"/>
+        <addwaypoint id="aisle2_5" waittime="6"/>
+        <addwaypoint id="bot_1"/>
+        <addwaypoint id="exit_bot_left"/>
+    </agent>
+
+    <!-- ===== AISLE3 WORKERS - OPENS THIRD (~75s) ===== -->
+
+    <!-- Restocker: 천천히 재고 채우며 이동 후 출구 -->
+    <agent x="0.5" y="-4" n="1" dx="0" dy="1" type="2">
+        <addwaypoint id="aisle3_0" waittime="12"/>
+        <addwaypoint id="aisle3_1" waittime="15"/>
+        <addwaypoint id="aisle3_2" waittime="18"/>
+        <addwaypoint id="aisle3_3" waittime="12"/>
+        <addwaypoint id="aisle3_4" waittime="10"/>
+        <addwaypoint id="top_2"/>
+        <addwaypoint id="exit_top_right"/>
+    </agent>
+
+    <!-- Picker E: 많은 작업량 후 아래쪽 출구 -->
+    <agent x="2.5" y="4" n="1" dx="0" dy="-1" type="1">
+        <addwaypoint id="aisle3_9" waittime="10"/>
+        <addwaypoint id="aisle3_8" waittime="15"/>
+        <addwaypoint id="aisle3_7" waittime="18"/>
+        <addwaypoint id="aisle3_6" waittime="12"/>
+        <addwaypoint id="aisle3_5" waittime="8"/>
+        <addwaypoint id="bot_2"/>
+        <addwaypoint id="exit_bot_right"/>
+    </agent>
+
+    <!-- ===== AISLE4 WORKERS - OPENS LAST (~95s) ===== -->
+
+    <!-- Inspector: 꼼꼼히 검사하며 순찰 후 출구 -->
+    <agent x="5.5" y="4" n="1" dx="0" dy="-1" type="3">
+        <addwaypoint id="aisle4_4" waittime="8"/>
+        <addwaypoint id="aisle4_3" waittime="10"/>
+        <addwaypoint id="aisle4_2" waittime="12"/>
+        <addwaypoint id="aisle4_1" waittime="8"/>
+        <addwaypoint id="aisle4_0" waittime="10"/>
+        <addwaypoint id="bot_3"/>
+        <addwaypoint id="exit_bot_right"/>
+    </agent>
+
+    <!-- Picker F: 대량 피킹 후 위쪽 출구 -->
+    <agent x="7.5" y="-2" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle4_6" waittime="12"/>
+        <addwaypoint id="aisle4_7" waittime="18"/>
+        <addwaypoint id="aisle4_8" waittime="15"/>
+        <addwaypoint id="aisle4_9" waittime="10"/>
+        <addwaypoint id="top_4"/>
+        <addwaypoint id="exit_top_right"/>
+    </agent>
+
+    <!-- Picker G: 대량 피킹 후 아래쪽 출구 -->
+    <agent x="9.5" y="2" n="1" dx="0" dy="-1" type="1">
+        <addwaypoint id="aisle4_13" waittime="10"/>
+        <addwaypoint id="aisle4_12" waittime="20"/>
+        <addwaypoint id="aisle4_11" waittime="15"/>
+        <addwaypoint id="aisle4_10" waittime="12"/>
+        <addwaypoint id="bot_4"/>
+        <addwaypoint id="exit_bot_right"/>
+    </agent>
+
+    <!-- ===== CORRIDOR TRANSPORTERS (2 people) ===== -->
+
+    <!-- Transporter 1: 위 복도 -->
+    <agent x="-11" y="11" n="1" dx="1" dy="0" type="0">
+        <addwaypoint id="exit_top_left"/>
+        <addwaypoint id="top_0"/>
+        <addwaypoint id="top_1"/>
+        <addwaypoint id="top_2"/>
+        <addwaypoint id="top_3"/>
+        <addwaypoint id="top_4"/>
+        <addwaypoint id="exit_top_right"/>
+    </agent>
+
+    <!-- Transporter 2: 아래 복도 -->
+    <agent x="11" y="-11" n="1" dx="-1" dy="0" type="0">
+        <addwaypoint id="exit_bot_right"/>
+        <addwaypoint id="bot_4"/>
+        <addwaypoint id="bot_3"/>
+        <addwaypoint id="bot_2"/>
+        <addwaypoint id="bot_1"/>
+        <addwaypoint id="bot_0"/>
+        <addwaypoint id="exit_bot_left"/>
+    </agent>
+
+    <!-- ===== IDLE WORKERS (복도에서 잠깐 대기) ===== -->
+
+    <!-- Idle 1: 위 복도에서 잠시 휴식 후 이동 -->
+    <agent x="0" y="8.5" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="top_2" waittime="20"/>
+        <addwaypoint id="top_3"/>
+        <addwaypoint id="top_4"/>
+        <addwaypoint id="exit_top_right"/>
+    </agent>
+
+    <!-- Idle 2: 아래 복도에서 잠시 대기 후 이동 -->
+    <agent x="4.5" y="-8.5" n="1" dx="0" dy="0" type="1">
+        <addwaypoint id="bot_3" waittime="15"/>
+        <addwaypoint id="bot_2"/>
+        <addwaypoint id="bot_1"/>
+        <addwaypoint id="exit_bot_left"/>
+    </agent>
+
+</scenario>

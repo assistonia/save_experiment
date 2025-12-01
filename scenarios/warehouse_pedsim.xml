@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Warehouse scenario for PedSim - Generated from warehouse.json -->
+<scenario>
+    <!-- Outer walls -->
+    <obstacle x1="-12.0" y1="-12.0" x2="-12.0" y2="12.0"/>
+    <obstacle x1="12.0" y1="-12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="12.0" x2="12.0" y2="12.0"/>
+    <obstacle x1="-12.0" y1="-12.0" x2="12.0" y2="-12.0"/>
+
+    <!-- Shelf 1 (leftmost) -->
+    <obstacle x1="-12" y1="4" x2="-12" y2="-5"/>
+    <obstacle x1="-12" y1="-5" x2="-10" y2="-5"/>
+    <obstacle x1="-10" y1="-5" x2="-10" y2="4"/>
+    <obstacle x1="-10" y1="4" x2="-12" y2="4"/>
+
+    <!-- Shelf 2 -->
+    <obstacle x1="-7" y1="4" x2="-7" y2="-5"/>
+    <obstacle x1="-7" y1="-5" x2="-5" y2="-5"/>
+    <obstacle x1="-5" y1="-5" x2="-5" y2="4"/>
+    <obstacle x1="-5" y1="4" x2="-7" y2="4"/>
+
+    <!-- Shelf 3 -->
+    <obstacle x1="-2" y1="4" x2="-2" y2="-5"/>
+    <obstacle x1="-2" y1="-5" x2="0" y2="-5"/>
+    <obstacle x1="0" y1="-5" x2="0" y2="4"/>
+    <obstacle x1="0" y1="4" x2="-2" y2="4"/>
+
+    <!-- Shelf 4 -->
+    <obstacle x1="3" y1="4" x2="3" y2="-5"/>
+    <obstacle x1="3" y1="-5" x2="5" y2="-5"/>
+    <obstacle x1="5" y1="-5" x2="5" y2="4"/>
+    <obstacle x1="5" y1="4" x2="3" y2="4"/>
+
+    <!-- Shelf 5 (rightmost) -->
+    <obstacle x1="10" y1="4" x2="10" y2="-5"/>
+    <obstacle x1="10" y1="-5" x2="12" y2="-5"/>
+    <obstacle x1="12" y1="-5" x2="12" y2="4"/>
+    <obstacle x1="12" y1="4" x2="10" y2="4"/>
+
+    <!-- Waypoints for pedestrian navigation -->
+    <!-- Top corridor waypoints -->
+    <waypoint id="top_left" x="-9" y="9" r="2"/>
+    <waypoint id="top_mid1" x="-6" y="9" r="2"/>
+    <waypoint id="top_mid2" x="-1" y="9" r="2"/>
+    <waypoint id="top_mid3" x="4" y="9" r="2"/>
+    <waypoint id="top_right" x="9" y="9" r="2"/>
+
+    <!-- Bottom corridor waypoints -->
+    <waypoint id="bot_left" x="-9" y="-9" r="2"/>
+    <waypoint id="bot_mid1" x="-6" y="-9" r="2"/>
+    <waypoint id="bot_mid2" x="-1" y="-9" r="2"/>
+    <waypoint id="bot_mid3" x="4" y="-9" r="2"/>
+    <waypoint id="bot_right" x="9" y="-9" r="2"/>
+
+    <!-- Aisle waypoints (between shelves) -->
+    <waypoint id="aisle1_top" x="-8.5" y="6" r="1"/>
+    <waypoint id="aisle1_bot" x="-8.5" y="-7" r="1"/>
+    <waypoint id="aisle2_top" x="-3.5" y="6" r="1"/>
+    <waypoint id="aisle2_bot" x="-3.5" y="-7" r="1"/>
+    <waypoint id="aisle3_top" x="1.5" y="6" r="1"/>
+    <waypoint id="aisle3_bot" x="1.5" y="-7" r="1"/>
+    <waypoint id="aisle4_top" x="7.5" y="6" r="1"/>
+    <waypoint id="aisle4_bot" x="7.5" y="-7" r="1"/>
+
+    <!-- Pedestrians walking horizontally in top corridor -->
+    <agent x="-9" y="9" n="2" dx="1" dy="0" type="0">
+        <addwaypoint id="top_left"/>
+        <addwaypoint id="top_mid1"/>
+        <addwaypoint id="top_mid2"/>
+        <addwaypoint id="top_mid3"/>
+        <addwaypoint id="top_right"/>
+    </agent>
+
+    <!-- Pedestrians walking horizontally in bottom corridor -->
+    <agent x="9" y="-9" n="2" dx="1" dy="0" type="0">
+        <addwaypoint id="bot_right"/>
+        <addwaypoint id="bot_mid3"/>
+        <addwaypoint id="bot_mid2"/>
+        <addwaypoint id="bot_mid1"/>
+        <addwaypoint id="bot_left"/>
+    </agent>
+
+    <!-- Pedestrians in aisle 1 -->
+    <agent x="-8.5" y="6" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle1_top"/>
+        <addwaypoint id="aisle1_bot"/>
+        <addwaypoint id="bot_left"/>
+        <addwaypoint id="top_left"/>
+    </agent>
+
+    <!-- Pedestrians in aisle 2 -->
+    <agent x="-3.5" y="-7" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle2_bot"/>
+        <addwaypoint id="aisle2_top"/>
+        <addwaypoint id="top_mid1"/>
+        <addwaypoint id="bot_mid1"/>
+    </agent>
+
+    <!-- Pedestrians in aisle 3 -->
+    <agent x="1.5" y="6" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle3_top"/>
+        <addwaypoint id="aisle3_bot"/>
+        <addwaypoint id="bot_mid2"/>
+        <addwaypoint id="top_mid2"/>
+    </agent>
+
+    <!-- Pedestrians in aisle 4 -->
+    <agent x="7.5" y="-7" n="1" dx="0" dy="1" type="1">
+        <addwaypoint id="aisle4_bot"/>
+        <addwaypoint id="aisle4_top"/>
+        <addwaypoint id="top_right"/>
+        <addwaypoint id="bot_right"/>
+    </agent>
+</scenario>
