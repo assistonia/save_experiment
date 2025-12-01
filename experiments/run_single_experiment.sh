@@ -199,9 +199,11 @@ docker run -d \
 
         sleep 15
 
-        # cmd_vel inverter (좌우 반전 수정)
-        python3 /navigation/scripts/cmd_vel_inverter.py &
-        sleep 2
+        # cmd_vel inverter (좌우 반전 수정) - DRL은 직접 제어하므로 제외
+        if [ "$LOCAL_PLANNER" != "drl" ]; then
+            python3 /navigation/scripts/cmd_vel_inverter.py &
+            sleep 2
+        fi
 
         # Local Planner 설치 및 실행
         case $LOCAL_PLANNER in
@@ -216,6 +218,11 @@ docker run -d \
                 apt-get update -qq && apt-get install -y -qq ros-noetic-mpc-local-planner 2>/dev/null
                 echo "Starting move_base with MPC..."
                 roslaunch /navigation/launch/move_base_mpc.launch &
+                ;;
+            drl)
+                echo "Starting DRL (TD3) local planner..."
+                # DRL은 move_base 없이 직접 cmd_vel 제어
+                python3 /navigation/scripts/drl_local_planner.py &
                 ;;
             *)
                 echo "Starting move_base with DWA..."
@@ -474,6 +481,21 @@ class ExperimentRunner:
                     dy = trajectory[i][1] - trajectory[i-1][1]
                     path_length += np.sqrt(dx**2 + dy**2)
 
+                # 직선 거리 (최단 경로)
+                start_pos = trajectory[0] if trajectory else self.robot_pos
+                straight_dist = np.sqrt((goal[0]-start_pos[0])**2 + (goal[1]-start_pos[1])**2)
+                path_efficiency = straight_dist / path_length if path_length > 0 else 1.0
+
+                # Jerk 계산 (가속도 변화량) - 부드러움 지표
+                jerk = 0.0
+                if len(velocities) >= 3:
+                    accels = np.diff(velocities) / SAMPLE_DT
+                    jerks = np.diff(accels) / SAMPLE_DT
+                    jerk = np.mean(np.abs(jerks))
+
+                # Angular Velocity Variance (회전 변동성)
+                angular_variance = np.var(angular_velocities) if len(angular_velocities) > 1 else 0.0
+
                 return {
                     'success': True,
                     'time': nav_time,  # 움직인 시간만 측정
@@ -484,6 +506,10 @@ class ExperimentRunner:
                     'avg_velocity': np.mean(velocities) if velocities else 0,
                     'avg_angular_velocity': np.mean(angular_velocities) if angular_velocities else 0,
                     'path_length': path_length,
+                    'straight_distance': straight_dist,
+                    'path_efficiency': path_efficiency,  # 1.0 = 완벽, 낮을수록 우회
+                    'jerk': jerk,  # 낮을수록 부드러움
+                    'angular_variance': angular_variance,  # 낮을수록 안정적 회전
                     'min_human_dist': min(min_human_dist_list) if min_human_dist_list else float('inf'),
                     'avg_human_dist': np.mean(min_human_dist_list) if min_human_dist_list else float('inf'),
                     'collision_count': collision_count,
@@ -508,6 +534,19 @@ class ExperimentRunner:
             nav_time = timeout
             planning_time = 0
 
+        # 추가 지표 계산 (timeout도 동일하게)
+        start_pos = trajectory[0] if trajectory else self.robot_pos
+        straight_dist = np.sqrt((goal[0]-start_pos[0])**2 + (goal[1]-start_pos[1])**2)
+        path_efficiency = straight_dist / path_length if path_length > 0 else 1.0
+
+        jerk = 0.0
+        if len(velocities) >= 3:
+            accels = np.diff(velocities) / SAMPLE_DT
+            jerks = np.diff(accels) / SAMPLE_DT
+            jerk = np.mean(np.abs(jerks))
+
+        angular_variance = np.var(angular_velocities) if len(angular_velocities) > 1 else 0.0
+
         return {
             'success': False,
             'time': nav_time,
@@ -518,6 +557,10 @@ class ExperimentRunner:
             'avg_velocity': np.mean(velocities) if velocities else 0,
             'avg_angular_velocity': np.mean(angular_velocities) if angular_velocities else 0,
             'path_length': path_length,
+            'straight_distance': straight_dist,
+            'path_efficiency': path_efficiency,
+            'jerk': jerk,
+            'angular_variance': angular_variance,
             'min_human_dist': min(min_human_dist_list) if min_human_dist_list else float('inf'),
             'avg_human_dist': np.mean(min_human_dist_list) if min_human_dist_list else float('inf'),
             'collision_count': collision_count,
@@ -610,7 +653,11 @@ class ExperimentRunner:
             'total_collisions': total_collisions,
             'collision_rate': total_collisions / len(results) if results else 0,
             'avg_itr': np.mean([r.get('itr', 0) for r in results]),  # Intrusion Time Ratio
-            'total_intrusion_time': sum(r.get('intrusion_time', 0) for r in results)
+            'total_intrusion_time': sum(r.get('intrusion_time', 0) for r in results),
+            # 새로운 지표
+            'avg_path_efficiency': np.mean([r.get('path_efficiency', 1.0) for r in results]),
+            'avg_jerk': np.mean([r.get('jerk', 0) for r in results]),
+            'avg_angular_variance': np.mean([r.get('angular_variance', 0) for r in results])
         }
 
         with open(f'{RESULTS_DIR}/summary.json', 'w') as f:
@@ -624,6 +671,9 @@ class ExperimentRunner:
         print(f'Avg Velocity: {summary[\"avg_velocity\"]:.2f}m/s')
         print(f'Avg Angular Vel: {summary[\"avg_angular_velocity\"]:.2f}rad/s')
         print(f'Avg Path Length: {summary[\"avg_path_length\"]:.1f}m')
+        print(f'Path Efficiency: {summary[\"avg_path_efficiency\"]:.3f} (1.0=optimal)')
+        print(f'Avg Jerk: {summary[\"avg_jerk\"]:.3f} (lower=smoother)')
+        print(f'Angular Variance: {summary[\"avg_angular_variance\"]:.3f} (lower=stable)')
         print(f'Min Human Dist: {summary[\"min_human_dist\"]:.2f}m')
         print(f'Avg ITR: {summary[\"avg_itr\"]:.3f}')
         print(f'Total Collisions: {summary[\"total_collisions\"]}')

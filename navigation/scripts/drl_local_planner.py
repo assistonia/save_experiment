@@ -229,16 +229,21 @@ class DRLLocalPlanner:
             # Get action from TD3
             action = self.agent.get_action(state)
 
+            # Sim-to-Sim Gap 보정: action[0]을 양수로 클리핑하여 전진 강제
+            # TD3 모델이 다른 환경에서 학습되어 action[0]=-1 (정지/후진) 출력하는 문제 해결
+            clipped_linear = max(action[0], 0.0)  # 최소 0으로 클리핑 (후진 방지)
+
             # Debug: 상태와 액션 출력
             distance = state[-4]
             angle = state[-3]
-            rospy.loginfo(f"[DRL] dist={distance:.2f}, angle={angle:.2f}rad, action=[{action[0]:.3f}, {action[1]:.3f}]")
+            rospy.loginfo(f"[DRL] dist={distance:.2f}, angle={angle:.2f}rad, action=[{action[0]:.3f}->{clipped_linear:.3f}, {action[1]:.3f}]")
 
             # Convert action to cmd_vel
-            # action[0]: linear velocity [-1, 1] -> [0, max_linear_vel]
+            # clipped_linear: [0, 1] -> [0.5, 1.0] * max_linear_vel (최소 속도 보장)
             # action[1]: angular velocity [-1, 1] -> [-max_angular_vel, max_angular_vel]
             cmd = Twist()
-            cmd.linear.x = (action[0] + 1) / 2 * self.max_linear_vel
+            # 최소 속도 0.3m/s 보장하여 항상 전진
+            cmd.linear.x = (0.3 + clipped_linear * 0.7) * self.max_linear_vel
             # p3dx 로봇은 angular.z가 이미 반전됨 (+ = 시계방향)
             # DRL 모델은 표준 ROS 컨벤션으로 학습됨 (+ = 반시계방향)
             # 따라서 반전 없이 그대로 사용

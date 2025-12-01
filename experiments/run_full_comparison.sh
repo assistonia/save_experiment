@@ -1,249 +1,123 @@
 #!/bin/bash
 # ==============================================================================
-# Full Comparison Script (3 Global Planners)
-#
-# 3가지 조건 비교:
-#   1. Local Only (Baseline)
-#   2. CIGP + Local
-#   3. Predictive Planning + Local
-#
-# Usage:
-#   ./run_full_comparison.sh [PLANNER] [SCENARIO] [EPISODES]
-#
-# Examples:
-#   ./run_full_comparison.sh              # DWA, baseline, 10 episodes
-#   ./run_full_comparison.sh drl_vo       # DRL-VO, baseline, 10 episodes
-#   ./run_full_comparison.sh dwa congestion 20
+# Full Cross-Comparison Experiment Runner
+# Global Planners: robot, cigp, predictive
+# Local Planners: dwa, teb, drl
+# Scenarios: block_dynamic, crossing, congestion_aisle1, block_heavy
 # ==============================================================================
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_DIR="$(dirname "$SCRIPT_DIR")"
-NAV_DIR="${ENV_DIR}/navigation"
-SICNAV_DIR="/home/pyongjoo/Desktop/newstart/sicnav-test"
-SINGULAR_DIR="/home/pyongjoo/Desktop/newstart/SingularTrajectory"
+cd "$SCRIPT_DIR"
 
-# 인자
-PLANNER=${1:-"dwa"}
-SCENARIO_TYPE=${2:-"baseline"}
-EPISODES=${3:-10}
+GLOBAL_PLANNERS=("robot" "cigp" "predictive")
+LOCAL_PLANNERS=("dwa" "teb" "drl")
+SCENARIOS=(
+    "scenario_block_dynamic.xml"
+    "scenario_crossing.xml"
+    "scenario_congestion_aisle1.xml"
+    "scenario_block_heavy.xml"
+)
+EPISODES=5
 
-# 시나리오 매핑
-case $SCENARIO_TYPE in
-    baseline|basic)
-        SCENARIO="warehouse_pedsim.xml"
-        ;;
-    congestion|heavy)
-        SCENARIO="scenario_block_heavy.xml"
-        ;;
-    circulation|all)
-        SCENARIO="scenario_congestion_all.xml"
-        ;;
-    *)
-        SCENARIO="${SCENARIO_TYPE}"
-        ;;
-esac
-
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-RESULTS_DIR="/environment/experiments/results/full_comparison_${PLANNER}_${TIMESTAMP}"
-
-CONTAINER_NAME="full_comparison_${PLANNER}_${TIMESTAMP}"
-
-# 기존 컨테이너 정리
-docker stop $CONTAINER_NAME 2>/dev/null || true
-docker rm $CONTAINER_NAME 2>/dev/null || true
-
-# X11 허용
-xhost +local:root 2>/dev/null || true
-xhost +local:docker 2>/dev/null || true
+LOG_DIR="$SCRIPT_DIR/results/full_comparison_$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$LOG_DIR"
 
 echo "=============================================================="
-echo " FULL COMPARISON EXPERIMENT (3 Global Planners)"
+echo " Full Cross-Comparison Experiment"
 echo "=============================================================="
-echo ""
-echo " Local Planner: $PLANNER"
-echo " Scenario:      $SCENARIO"
-echo " Episodes:      $EPISODES (per condition)"
-echo ""
-echo " Conditions:"
-echo "   1. ${PLANNER^^} only          (Baseline)"
-echo "   2. CIGP-${PLANNER^^}          (CCTV-Informed)"
-echo "   3. PRED-${PLANNER^^}          (Predictive Planning)"
-echo ""
-echo " Total episodes: $((EPISODES * 3))"
-echo " Results: $RESULTS_DIR"
-echo ""
+echo " Global Planners: ${GLOBAL_PLANNERS[*]}"
+echo " Local Planners: ${LOCAL_PLANNERS[*]}"
+echo " Scenarios: ${#SCENARIOS[@]} scenarios"
+echo " Episodes per experiment: $EPISODES"
+echo " Total experiments: $((${#GLOBAL_PLANNERS[@]} * ${#LOCAL_PLANNERS[@]} * ${#SCENARIOS[@]}))"
+echo " Log directory: $LOG_DIR"
 echo "=============================================================="
 
-# SingularTrajectory 체크
-if [ ! -d "$SINGULAR_DIR" ]; then
-    echo "WARNING: SingularTrajectory not found at $SINGULAR_DIR"
-    echo "Predictive Planning will not work!"
-fi
+# 진행 상황 저장
+PROGRESS_FILE="$LOG_DIR/progress.txt"
+SUMMARY_FILE="$LOG_DIR/summary.csv"
 
-docker run -it \
-    --name $CONTAINER_NAME \
-    --gpus all \
-    --privileged \
-    -e DISPLAY=$DISPLAY \
-    -e QT_X11_NO_MITSHM=1 \
-    -e NVIDIA_VISIBLE_DEVICES=all \
-    -e NVIDIA_DRIVER_CAPABILITIES=all \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    -v ${ENV_DIR}:/environment:rw \
-    -v ${NAV_DIR}:/navigation:rw \
-    -v ${SICNAV_DIR}:/sicnav-test:ro \
-    -v ${SINGULAR_DIR}:/SingularTrajectory:ro \
-    -v /home/pyongjoo/.Xauthority:/root/.Xauthority:rw \
-    --network host \
-    gdae_with_navigation:yolo \
-    bash -c "
-        # 파일 복사
-        cp /environment/with_robot/scenarios/${SCENARIO} /root/DRL-robot-navigation/catkin_ws/src/pedsim_ros_with_gazebo/pedsim_simulator/scenarios/
-        cp /environment/with_robot/worlds/warehouse.world /root/DRL-robot-navigation/catkin_ws/src/pedsim_ros_with_gazebo/pedsim_gazebo_plugin/worlds/
-        cp /environment/with_robot/launch/warehouse_with_robot.launch /root/DRL-robot-navigation/catkin_ws/src/pedsim_ros_with_gazebo/pedsim_simulator/launch/
+# CSV 헤더
+echo "scenario,global_planner,local_planner,success_rate,avg_time,avg_velocity,path_efficiency,jerk,angular_variance,min_human_dist,total_collisions,avg_itr" > "$SUMMARY_FILE"
 
-        source /opt/ros/noetic/setup.bash
-        source /root/DRL-robot-navigation/catkin_ws/devel_isolated/setup.bash
-        export PYTHONPATH=/SingularTrajectory:/sicnav-test:/environment/local_planners:/environment/experiments:/environment/predictive_planning:/environment/trajectory_prediction:\${PYTHONPATH}
+total_experiments=$((${#GLOBAL_PLANNERS[@]} * ${#LOCAL_PLANNERS[@]} * ${#SCENARIOS[@]}))
+current_exp=0
 
-        mkdir -p ${RESULTS_DIR}
+for scenario in "${SCENARIOS[@]}"; do
+    scenario_name="${scenario%.xml}"
 
-        # ============================================================
-        # Phase 1: Local Only (Baseline)
-        # ============================================================
-        echo ''
-        echo '================================================'
-        echo ' Phase 1/3: ${PLANNER^^} Only (Baseline)'
-        echo '================================================'
-        echo ''
+    for global in "${GLOBAL_PLANNERS[@]}"; do
+        for local in "${LOCAL_PLANNERS[@]}"; do
+            current_exp=$((current_exp + 1))
 
-        # PedSim + Gazebo 시작
-        roslaunch pedsim_simulator warehouse_with_robot.launch \
-            scene_file:=/environment/with_robot/scenarios/${SCENARIO} \
-            world_file:=/environment/with_robot/worlds/warehouse.world &
-        PEDSIM_PID=\$!
-        sleep 15
+            echo ""
+            echo "[$current_exp/$total_experiments] Running: $global + $local on $scenario_name"
+            echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting $global + $local on $scenario_name" >> "$PROGRESS_FILE"
 
-        # Local Planner만 시작 (Global Planner 없음)
-        python3 /environment/local_planners/local_planner_node.py _planner:=${PLANNER} &
-        LOCAL_PID=\$!
-        sleep 3
+            # 실험 실행
+            exp_log="$LOG_DIR/${scenario_name}_${global}_${local}.log"
 
-        # 실험 실행
-        python3 /environment/experiments/experiment_runner.py \
-            --planner ${PLANNER} \
-            --global-planner none \
-            --scenario ${SCENARIO} \
-            --episodes ${EPISODES} \
-            --results-dir ${RESULTS_DIR}
+            # 기존 컨테이너 정리
+            docker ps -q | xargs -r docker stop 2>/dev/null || true
+            sleep 2
 
-        # 프로세스 종료
-        kill \$LOCAL_PID 2>/dev/null || true
-        kill \$PEDSIM_PID 2>/dev/null || true
-        sleep 5
+            # 실험 실행 (최대 10분)
+            timeout 600 ./run_single_experiment.sh \
+                --module "$global" \
+                --local-planner "$local" \
+                --scenario "$scenario" \
+                --episodes "$EPISODES" \
+                --headless 2>&1 | tee "$exp_log" || {
+                    echo "  [WARNING] Experiment timed out or failed"
+                    echo "$(date '+%Y-%m-%d %H:%M:%S') - FAILED: $global + $local on $scenario_name" >> "$PROGRESS_FILE"
+                    continue
+                }
 
-        # ============================================================
-        # Phase 2: CIGP + Local
-        # ============================================================
-        echo ''
-        echo '================================================'
-        echo ' Phase 2/3: CIGP-${PLANNER^^}'
-        echo '================================================'
-        echo ''
+            # 결과 추출
+            result_dir=$(grep "Results:" "$exp_log" | tail -1 | awk '{print $2}')
 
-        # PedSim + Gazebo 재시작
-        roslaunch pedsim_simulator warehouse_with_robot.launch \
-            scene_file:=/environment/with_robot/scenarios/${SCENARIO} \
-            world_file:=/environment/with_robot/worlds/warehouse.world &
-        PEDSIM_PID=\$!
-        sleep 15
+            if [ -f "$result_dir/summary.json" ]; then
+                # JSON에서 값 추출
+                success_rate=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('success_rate', 0))")
+                avg_time=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('avg_time', 0))")
+                avg_velocity=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('avg_velocity', 0))")
+                path_efficiency=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('avg_path_efficiency', 0))")
+                jerk=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('avg_jerk', 0))")
+                angular_var=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('avg_angular_variance', 0))")
+                min_dist=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('min_human_dist', 0))")
+                collisions=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('total_collisions', 0))")
+                avg_itr=$(python3 -c "import json; d=json.load(open('$result_dir/summary.json')); print(d.get('avg_itr', 0))")
 
-        # CIGP 시작
-        python3 /environment/cigp_integration/cigp_bridge_node.py &
-        CIGP_PID=\$!
-        sleep 5
+                # CSV에 추가
+                echo "$scenario_name,$global,$local,$success_rate,$avg_time,$avg_velocity,$path_efficiency,$jerk,$angular_var,$min_dist,$collisions,$avg_itr" >> "$SUMMARY_FILE"
 
-        # Local Planner 시작
-        python3 /environment/local_planners/local_planner_node.py _planner:=${PLANNER} &
-        LOCAL_PID=\$!
-        sleep 3
+                echo "  [SUCCESS] Success Rate: ${success_rate}%, Collisions: $collisions"
+                echo "$(date '+%Y-%m-%d %H:%M:%S') - SUCCESS: $global + $local on $scenario_name (SR: ${success_rate}%)" >> "$PROGRESS_FILE"
+            else
+                echo "  [ERROR] No summary.json found"
+                echo "$(date '+%Y-%m-%d %H:%M:%S') - ERROR: $global + $local on $scenario_name - No summary" >> "$PROGRESS_FILE"
+            fi
 
-        # 실험 실행
-        python3 /environment/experiments/experiment_runner.py \
-            --planner ${PLANNER} \
-            --global-planner cigp \
-            --scenario ${SCENARIO} \
-            --episodes ${EPISODES} \
-            --results-dir ${RESULTS_DIR}
-
-        # 프로세스 종료
-        kill \$LOCAL_PID 2>/dev/null || true
-        kill \$CIGP_PID 2>/dev/null || true
-        kill \$PEDSIM_PID 2>/dev/null || true
-        sleep 5
-
-        # ============================================================
-        # Phase 3: Predictive Planning + Local
-        # ============================================================
-        echo ''
-        echo '================================================'
-        echo ' Phase 3/3: PRED-${PLANNER^^} (Predictive Planning)'
-        echo '================================================'
-        echo ''
-
-        # PedSim + Gazebo 재시작
-        roslaunch pedsim_simulator warehouse_with_robot.launch \
-            scene_file:=/environment/with_robot/scenarios/${SCENARIO} \
-            world_file:=/environment/with_robot/worlds/warehouse.world &
-        PEDSIM_PID=\$!
-        sleep 15
-
-        # Predictive Planning 시작
-        cd /environment/predictive_planning
-        python3 src/predictive_planning_bridge.py _use_direct_control:=false &
-        PRED_PID=\$!
-        sleep 8
-
-        # Local Planner 시작
-        cd /environment/local_planners
-        python3 local_planner_node.py _planner:=${PLANNER} &
-        LOCAL_PID=\$!
-        sleep 3
-
-        # 실험 실행
-        python3 /environment/experiments/experiment_runner.py \
-            --planner ${PLANNER} \
-            --global-planner predictive \
-            --scenario ${SCENARIO} \
-            --episodes ${EPISODES} \
-            --results-dir ${RESULTS_DIR}
-
-        # 프로세스 종료
-        kill \$LOCAL_PID 2>/dev/null || true
-        kill \$PRED_PID 2>/dev/null || true
-        kill \$PEDSIM_PID 2>/dev/null || true
-
-        # ============================================================
-        # 완료
-        # ============================================================
-        echo ''
-        echo '================================================'
-        echo ' FULL COMPARISON COMPLETE'
-        echo '================================================'
-        echo ''
-        echo 'Results saved to: ${RESULTS_DIR}'
-        echo ''
-
-        # 결과 요약 출력
-        if [ -f ${RESULTS_DIR}/analysis/summary.txt ]; then
-            cat ${RESULTS_DIR}/analysis/summary.txt
-        fi
-    "
+            # 컨테이너 정리
+            docker ps -q | xargs -r docker stop 2>/dev/null || true
+            sleep 3
+        done
+    done
+done
 
 echo ""
 echo "=============================================================="
-echo " FULL COMPARISON COMPLETED"
-echo " Results: ${ENV_DIR}/experiments/results/full_comparison_${PLANNER}_${TIMESTAMP}"
+echo " Experiments Complete!"
 echo "=============================================================="
+echo " Results: $LOG_DIR"
+echo " Summary: $SUMMARY_FILE"
+echo ""
+
+# 요약 출력
+echo "=== Results Summary ==="
+column -t -s',' "$SUMMARY_FILE"
+
+echo ""
+echo "Done!"
