@@ -26,7 +26,7 @@ class PredictivePlanningConfig:
 
     # === 로봇 파라미터 ===
     robot_radius: float = 0.25   # 로봇 반경 (m)
-    robot_velocity: float = 0.8  # 로봇 평균 속도 (m/s)
+    robot_velocity: float = 0.5  # 로봇 평균 속도 (m/s) - Pioneer P3-DX 특성 반영
 
     # === 비용 계산 파라미터 (핵심!) ===
     sigma_scale: float = 0.8     # 개별 샘플 반경 축소 계수 [합의된 값]

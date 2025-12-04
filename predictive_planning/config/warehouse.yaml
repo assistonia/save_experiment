@@ -17,7 +17,7 @@ pred_horizon: 12      # 예측 시점 수 (12 * 0.4 = 4.8초)
 
 # === Robot Settings ===
 robot_radius: 0.25    # 로봇 반경 (m)
-robot_velocity: 0.8   # 로봇 평균 속도 (m/s)
+robot_velocity: 0.5   # 로봇 평균 속도 (m/s) - Pioneer P3-DX 특성 반영
 
 # === Cost Calculation (핵심!) ===
 sigma_scale: 0.8      # 개별 반경 축소 [합의된 값]
